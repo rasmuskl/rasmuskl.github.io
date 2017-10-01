@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>A WinDbg Debugging Journey - NHibernate Memory Leak | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="Disclaimer: This is not a stab at the NHibernate team. They are doing an awesome job, it might as well (and for a long time I thought it was) have bee">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="A WinDbg Debugging Journey - NHibernate Memory Leak"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">A WinDbg Debugging Journey - NHibernate Memory Leak</h1>
+  
+
+        
+          <time datetime="2008-12-19T19:29:15.000Z"><a href="/2008/12/19/a-windbg-debugging-journey-nhibernate-memory-leak/">Dec 19 2008</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/WinDbg/">WinDbg</a>, <a href="/tags/NHibernate/">NHibernate</a>, <a href="/tags/Debugging/">Debugging</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <p><em>Disclaimer: This is not a stab at the NHibernate team. They are doing an awesome job, it might as well (and for a long time I thought it was) have been in my own code. In addition - the memory leak is already solved on the NHibernate trunk.</em></p>
+<h2>Introduction</h2>
+<p>A few weeks back, an ASP.NET application (using NHibernate 2.0.0.4000) I am running got under heavier load than usual. I had noted that the memory usage was slightly high earlier, but it had never been a real problem - this is all the server is doing. However, under heavier load, memory pressure started approaching 700-800mb and the dreaded OutOfMemoryException started appearing when doing big chunks of work.</p>
+<p>To be honest, I have never done much memory debugging - learning opportunity! If you do a sweep of the web these days on .NET and debugging, you will no doubt find the blog of <a href="http://blogs.msdn.com/tess/" target="_blank">Tess Ferrandez</a>, who is an ASP.NET Escalation Engineer working at Microsoft. She has even done a lab series aptly named <a href="http://blogs.msdn.com/tess/pages/net-debugging-demos-information-and-setup-instructions.aspx" target="_blank">buggy bits</a> that ease you through debugging and identifying various kinds of application problems. </p>
+<p>After reading through her articles and watching her <a href="http://blogs.msdn.com/tess/archive/2008/11/27/video-of-my-teched-presentation-of-common-issues-in-asp-net-and-how-to-debug-them-with-windbg.aspx" target="_blank">TechEd presentation</a> on the subject, I downloaded <a href="http://www.microsoft.com/whdc/devtools/debugging/default.mspx" target="_blank">WinDbg</a>, configured it as Tess had described and started experimenting. This blog post will describe my journey and hopefully help other solve similar problems.</p>
+<h2>The Puzzle</h2>
+<p>The first thing I did was to grab a memory with adplus, one of the tools included with WinDbg. From my understanding, it stops the application momentarily and just writes the entire contents of memory to disk. This produced a huge .DMP file - a memory dump. My managed heap was at around 800mb at the time, but the dump file was slightly bigger.</p>
+<p>Working with WinDbg is not your standard draggy-droppy windows application, it looks sort of like a console and you type bizarre command and it produces even more bizarre output for you to reason about. I started out using the <code>!eeheap -gc</code> command, which produces some basic information about your heaps.</p>
+<img src="/post-images/WindowsLiveWriter/ADebuggingExperienceNHibernateMemoryLeak_10145/image_thumb_1.png">
+
+
+<p>As you can see, my heap size was around 814mb. If you dig into the information (not all shown on screenshot), you will find that my garbage collectors generation 2 is much bigger than generation 0 and 1. (You can read more about garbage collection and generational garbage collection <a href="http://en.wikipedia.org/wiki/Garbage_collection_(computer_science" target="_blank">here</a>).)</p>
+<p>After looking at this, I fired off the <code>!dumpheap -stat</code> command to get an overview of the objects in the heap.</p>
+<img src="/post-images/WindowsLiveWriter/ADebuggingExperienceNHibernateMemoryLeak_10145/image_thumb.png">
+
+
+<p>The output looked like that, the first column denoting the type of object, second is number of objects, third is the shallow size of the objects, that is, not including whatever it references - the fourth is the type name.</p>
+<p>Now, the first time I looked at this, I noted the NHibernate objects but focused more on the 385mb of strings - usually, <a href="http://www.pragprog.com/the-pragmatic-programmer/extracts/tips" target="_blank">SELECT isn&#39;t broken</a> - I was convinced this was a problem in my code. I dug a bit deeper but didn‘t really find much, partly because WinDbg isn’t super easy. This lead me to find some other places in my code that needed StringBuilders, but this proved not to be the root cause (thanks anyway <a href="http://www.publicvoid.dk/" target="_blank">Søren</a>).</p>
+<p>Later, when thinking about the problem, it came to me that that maybe 1.9 million NHibernate SqlStrings was a wee bit too many. I decided to did deeper into this - I found the SqlString in my list and found that the type is denoted with 0eafd714. Now, !dumpheap can do more that just give you statistics, it can give you filtered lists using various arguments. I wanted to sample some instances of these SqlStrings to see where they were bounded, so I used the command <code>!dumpheap -mt 0eafd714</code>. This makes WinDbg give me a list of all the instances of the NHibernate SqlString - this is a very long list.</p>
+<img src="/post-images/WindowsLiveWriter/ADebuggingExperienceNHibernateMemoryLeak_10145/image_thumb_2.png">
+
+
+<p>Now, the second column denotes the type, the third is the shallow object size and the first is what we are looking for - the instance address. I picked a few of them at random and used the !gcroot command to show where they were rooted. That is, give me the chain of references that lead to this object. An example is <code>!gcroot 57c2f130</code>, which produces the following output.</p>
+<img src="/post-images/WindowsLiveWriter/ADebuggingExperienceNHibernateMemoryLeak_10145/image_thumb_3.png">
+
+
+<p>You can see the actual instance at the bottom and then follow the chain upwards. It seems this current SqlString is rooted in a QueryPlanCache in the NHibernate SessionFactory.</p>
+<p>At this point I actually downloaded the NHibernate source and started looking around. Conceptually, the NHibernate SessionFactory keeps a cache of recent HQL queries, so it doesn&#39;t have to rebuild them. According to the source code, it would store the 128 most recently used queries. </p>
+<p>Now WinDbg can actually tell you the “deep” size of an object, object size + objects it references. This is done using the !objsize command. Now this literally took several hours of processing, so I don&#39;t have a screenshot for the blog post, but executing <code>!objsize 067016bc</code> command should give me the memory size of my SessionFactory. According to my log file, it told me:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre> <span class="keyword">sizeof</span>(<span class="number">067016</span>bc) =    <span class="number">716798348</span> (  <span class="number">0x2ab9798c</span>) bytes (NHibernate<span class="variable">.Impl</span><span class="variable">.SessionFactoryImpl</span>)
+</pre></td></tr></table></figure>
+
+<p>That is one <strong>big</strong> SessionFactory (~700mb). I dug further down the reference chain to try and figure out what was wrong with the cache. Remember I said that this cache was supposed to hold 128 queries. When I got to the hashtable in the cache and dumped it using the <code>!do 067030d4</code> command, it revealed the following:</p>
+<img src="/post-images/WindowsLiveWriter/ADebuggingExperienceNHibernateMemoryLeak_10145/image_thumb_4.png">
+
+
+<p>According to this, my cache contains 92000 queries. After digging around in the code, writing a few unit tests and getting some help from the NHibernate user group, I finally found out that it was a bug in the object indexer in the LRUMap, such that it didn&#39;t enforce the 128 limit properly.</p>
+<p>It was a small innocent bug, but having a 700mb (and growing) hashtable hanging around in your system forever is not really that pleasant. I ended up writing a hack that used reflection to access the field that contained the cache and clearing it periodically. It is already fixed on the NHibernate trunk, but I haven&#39;t gotten around to updating yet.</p>
+<p>Since implementing my clear hack, I haven&#39;t seen memory usages above 50mb.</p>
+<h2>Conclusion</h2>
+<p>I&#39;ve told my small debugging tale of how I got introduced to WinDbg and how it helped me track down a major issue in my application and reduce memory usage from ~800mb to ~50mb. It‘s a funky tool and can be quite scary at first, but if it helps me remove memory leaks, I am all for it. The second lesson learned is that sometimes - although I still won’t look there first - SELECT <u>is</u> broken.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

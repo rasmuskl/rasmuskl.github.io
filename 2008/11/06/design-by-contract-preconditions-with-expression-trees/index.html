@@ -1,0 +1,371 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Design By Contract Preconditions With Expression Trees | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="Introduction
+Seems like Design by Contract is coming to C# 4.0, replacing the somewhat inadequate Debug.Assert, which is the only thing built into the">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Design By Contract Preconditions With Expression Trees"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">Design By Contract Preconditions With Expression Trees</h1>
+  
+
+        
+          <time datetime="2008-11-06T22:58:28.000Z"><a href="/2008/11/06/design-by-contract-preconditions-with-expression-trees/">Nov 6 2008</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Design by Contract/">Design by Contract</a>, <a href="/tags/C#/">C#</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <h2>Introduction</h2>
+<p>Seems like <a href="http://en.wikipedia.org/wiki/Design_by_contract" target="_blank">Design by Contract</a> is <a href="http://channel9.msdn.com/pdc2008/TL51/" target="_blank">coming</a> to C# 4.0, replacing the somewhat inadequate Debug.Assert, which is the only thing built into the framework at the moment. However, what are the options for today? In this post, I&#39;ll take a look at how to improve current precondition checking techniques using C# 3.0 expression trees.</p>
+<h2>Design By What?</h2>
+<p>Design by contract is technique for strengthening the contracts for classes by adding 3 kinds of checks:</p>
+<p><strong>Preconditions</strong> - What the called method expects from the caller. This is usually various forms of checks on method arguments. </p>
+<p><strong>Postconditions</strong> - What the called method guarantees upon returning. Often guarantees about the return value.</p>
+<p><strong>Invariants</strong> - What is guaranteed by the class? That is, the class invariant should be true upon one of the objects methods and again when the method returns. </p>
+<p>So why is this even important? One of the merits of Design by Contract are that it can communicate a whole lot about your classes to other people using or reading your code. but they can also be helpful to you, as they allow you to express your intent more clearly and will support the fail-fast principle of <a href="http://en.wikipedia.org/wiki/Defensive_programming" target="_blank">defensive programming</a>. The idea here is to produce the error as close to the source as possible. </p>
+<p>Lets do a simple example to illustrate why this might be useful, consider the following two classes:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span>
+{</span>
+    <span class="keyword">public</span> Person(<span class="keyword">string</span> name)
+    {
+        Name = name;
+    }
+    <span class="keyword">public</span> <span class="keyword">string</span> Name { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+}
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Account</span>
+{</span>
+    <span class="keyword">private</span> Person _owner;
+    <span class="keyword">public</span> Account(Person owner)
+    {
+        _owner = owner;
+    }
+    <span class="keyword">public</span> <span class="keyword">string</span> GetOwnerName()
+    {
+        <span class="keyword">return</span> _owner.Name;
+    }
+}
+</pre></td></tr></table></figure>
+
+<p>It seems that the writer of the Account class is implying that an Account object should have an owner - an instance of Person. However, there&#39;s nothing to stop a potential client from doing this:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">static</span> <span class="keyword">void</span> Main(<span class="keyword">string</span>[] args)
+ {
+     <span class="keyword">var</span> account = <span class="keyword">new</span> Account(<span class="keyword">null</span>);
+     Console.WriteLine(account.GetOwnerName());
+ }
+</pre></td></tr></table></figure>
+
+<p>This fails with a NullReferenceException in line 4 with the following stack trace:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>DbCExpressionTrees<span class="variable">.exe</span>!DbCExpressionTrees<span class="variable">.Account</span><span class="variable">.GetOwnerName</span>() Line <span class="number">17</span>    C<span class="preprocessor">#</span>
+DbCExpressionTrees<span class="variable">.exe</span>!DbCExpressionTrees<span class="variable">.Program</span><span class="variable">.Main</span>(string[] args = {string[<span class="number">0</span>]}) Line <span class="number">13</span> + <span class="number">0xa</span> bytes C<span class="preprocessor">#</span>
+</pre></td></tr></table></figure>
+
+<p>Now this example is very contrived, since it‘s blatantly obvious where the bug is. But still, consider if the call to GetOwnerName had been in a completely different layer of the application, maybe even minutes after the Account object had been created. I’m sure you‘ve had your fun with your debugger tracking down errors like this, if you’ve done any moderate size programs - I know I have. </p>
+<p>What we need is a way for the writer of the Account class to communicate a stronger contract on what he&#39;s expecting from his client. In an <a href="http://en.wikipedia.org/wiki/Eiffel_(programming_language" target="_blank">ideal world</a>), this contract would be enforced at compile-time and not allow the program to compile if contracts were broken. A thing I&#39;ve always wanted for situations like this is being able to specify arguments as non-nullable in C# - that is, give me an object of this type and NOT null - since this makes sense in a lot of situations. Anyway, the only way to get something resembling this today is using <a href="http://research.microsoft.com/SpecSharp/" target="_blank">Spec#</a>, but this is a research project and still under development. So we will have to settle for runtime checks for starters.</p>
+<p>Returning to the fail-fast principle - why is this useful? Consider the following change to the Account constructor:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">public</span> Account(Person owner)
+{
+    <span class="keyword">if</span>(owner == <span class="keyword">null</span>)
+        <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(<span class="string">"owner"</span>);
+    _owner = owner;
+}
+</pre></td></tr></table></figure>
+
+<p>Executing the client code from before, our program will now fail when trying to create the invalid Account object with the following stack trace - and a clearly readable exception message (that owner is not allowed to be null):</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>DbCExpressionTrees<span class="variable">.exe</span>!DbCExpressionTrees<span class="variable">.Account</span><span class="variable">.Account</span>(DbCExpressionTrees<span class="variable">.Person</span> owner = null) Line <span class="number">13</span>   C<span class="preprocessor">#</span>
+DbCExpressionTrees<span class="variable">.exe</span>!DbCExpressionTrees<span class="variable">.Program</span><span class="variable">.Main</span>(string[] args = {string[<span class="number">0</span>]}) Line <span class="number">12</span> + <span class="number">0x17</span> bytes    C<span class="preprocessor">#</span>
+</pre></td></tr></table></figure>
+
+<p>The benefit here is that this stack trace points directly to the first offense against the “contract”. Consider the differences in debugging time on the two examples. Examples like this could also be made for postconditions and invariants.</p>
+<h2>Expression Trees</h2>
+<p>Okay, I admit it, I‘ve been itching to play around with Expressions since C# 3.0 was released and especially with all the cool usages in ASP.NET MVC. Furthermore I’ll often go to great lengths to avoid “magic strings” in favor of something more type-safe (and refactor-friendly). Also, I happened to stumble upon these two posts by <a href="http://aabs.wordpress.com/2008/01/16/complex-assertions-using-c-30/" target="_blank">The Wandering Glitch</a>and <a href="http://skarpt.dk/blog/?p=14" target="_blank">Søren Skovsbøll</a> where they experiment with Design By Contract and C# 3.0.</p>
+<p>Realistically, I preconditions are only viable part of Design by Contract to implement in C# at the moment. While you can probably do crazy postcondition and invariant checking by using exotic things like IL injection or interceptors, I really don‘t think we’ll see any really good solutions until the language provides better support. So I decided to see what I could do on preconditions.</p>
+<p>Now, Søren and Andrew (the Glitch) used a general Requires method for defining their preconditions. Søren&#39;s looks like this:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> Require(<span class="keyword">this</span> T obj,
+    Expression&lt;Func&lt;<span class="keyword">bool</span>&gt;&gt; booleanExpression)
+{
+   <span class="keyword">var</span> compiledPredicate = booleanExpression.Compile();
+   <span class="keyword">if</span> (!compiledPredicate())
+      <span class="keyword">throw</span> <span class="keyword">new</span> ContractViolationException(
+         “Violation of precondition: ”
+         + booleanExpression.ToNiceString());
+}
+</pre></td></tr></table></figure>
+
+<p>When using a lambda wrapped in an expression, we don‘t get the delegate that we’re used to, instead we get something that resembles an <a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree" target="_blank">abstract syntax tree</a> that represents the expression. This is what enables us to pull various information about the expression. As shown above, the expression can then be compiled into the delegate that we&#39;re used to and executed.</p>
+<p>However, compiling expressions is not the cheapest operation ever - and I personally believe that it can be beneficial to leave your contracts (if they are runtime) in your production code. Since breaking the contracts in production could lead to undefined behavior (or at least unintended), it would be nice to find the offender easily from the log containing the stack trace. So, since we‘re most likely going to use preconditions many places, it’d be super nice if they were as fast as possible. But preferably still without the strings.</p>
+<p>My preference so far has been to do specialized methods for checking various things. If we have very specific methods for checking stuff the occurs often, we can make assumptions (or requirements) about the format of the lambda expressions and cut out the expression compilation. For more exotic things I&#39;ll still use the Requires method as shown above.</p>
+<p>The example I‘ll show here is the same I did in my example earlier namely checking method arguments for null. This is arguably the precondition seen most often - however I’ve also done others checking arguments for empty strings in much the same way.</p>
+<p>My ArgumentNotNull method defined on my static Check class looks like this:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> ArgumentNotNull&lt;T&gt;(
+     Expression&lt;Func&lt;T&gt;&gt; argumentExpression) <span class="keyword">where</span> T : <span class="keyword">class</span>
+{
+    <span class="keyword">var</span> memberExp = argumentExpression.Body <span class="keyword">as</span> MemberExpression;
+    <span class="keyword">if</span> (memberExp == <span class="keyword">null</span>)
+        <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException
+           (<span class="string">"Invalid Contract: ArgumentExpression "</span>+ 
+             <span class="string">"was not a MemberExpression."</span>);
+    <span class="keyword">var</span> constantExpression = memberExp.Expression <span class="keyword">as</span> ConstantExpression;
+    <span class="keyword">if</span> (constantExpression == <span class="keyword">null</span>)
+        <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException
+          (<span class="string">"Invalid Contract: ArgumentExpression didn't "</span>+
+           <span class="string">"contain a ConstantExpression."</span>);
+    <span class="comment">// Argument will be a field on the class.</span>
+    <span class="keyword">var</span> fieldInfo = memberExp.Member <span class="keyword">as</span> FieldInfo;
+    <span class="comment">// The contant expression will contain the object we're </span>
+    <span class="comment">// calling from.</span>
+    <span class="keyword">var</span> methodOwner = constantExpression.Value;
+    <span class="comment">// Use the fieldInfo to extract the information directly from the owner</span>
+    <span class="keyword">if</span> (fieldInfo != <span class="keyword">null</span> && fieldInfo.GetValue(methodOwner) == <span class="keyword">null</span>)
+        <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException(memberExp.Member.Name);
+}
+</pre></td></tr></table></figure>
+
+<p>The use in the Account class will look like this:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>public Account(Person owner)
+{
+    Check<span class="preprocessor">.ArgumentNotNull</span>(() =&gt; owner)<span class="comment">;</span>
+    _owner = owner<span class="comment">;</span>
+}
+</pre></td></tr></table></figure>
+
+<p>and it will throw an exception that looks exactly like the one in my first example, so all the expression / reflection magic was really just to extract the argument name in a type-safe way. The ArgumentNotNull expects only lambda expressions containing a single argument and can thus make assumptions on the generated expression and pull the field value directly from the correct instance without compiling the expression.</p>
+<p>But writing these specialized methods takes longer time and the Requires method can capture infinitely more conditions - so is this really worth it performance-wise? I did a small micro-benchmark - <strong>note: I‘ve focused on the scenario where there’s no error, since it by far the most common occurrence - we don‘t really care about performance if we’re killing the program with an exception.</strong></p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="code"><pre>static void Main(string[] args)
+{
+    var timerArgumentNotNull = new Stopwatch()<span class="comment">;</span>
+    var timerRequires = new Stopwatch()<span class="comment">;</span>
+    var obj = new object()<span class="comment">;</span>
+    timerArgumentNotNull<span class="preprocessor">.Start</span>()<span class="comment">;</span>
+    for (var i = <span class="number">0</span><span class="comment">; i &lt; 10000; i++)</span>
+        TestMethod(obj)<span class="comment">;</span>
+    timerArgumentNotNull<span class="preprocessor">.Stop</span>()<span class="comment">;</span>
+    timerRequires<span class="preprocessor">.Start</span>()<span class="comment">;</span>
+    for (var i = <span class="number">0</span><span class="comment">; i &lt; 10000; i++)</span>
+        TestMethodWithRequire(obj)<span class="comment">;</span>
+    timerRequires<span class="preprocessor">.Stop</span>()<span class="comment">;</span>
+    Console<span class="preprocessor">.WriteLine</span>(<span class="string">"Argument not null: {0}"</span>, 
+        timerArgumentNotNull<span class="preprocessor">.ElapsedMilliseconds</span>)<span class="comment">;</span>
+    Console<span class="preprocessor">.WriteLine</span>(<span class="string">"Requires not null: {0}"</span>, 
+        timerRequires<span class="preprocessor">.ElapsedMilliseconds</span>)<span class="comment">;</span>
+    Console<span class="preprocessor">.ReadKey</span>()<span class="comment">;</span>
+}
+
+private static void TestMethod(Object obj)
+{
+    Check<span class="preprocessor">.ArgumentNotNull</span>(() =&gt; obj)<span class="comment">;</span>
+}
+private static void TestMethodWithRequire(Object obj)
+{
+    Check<span class="preprocessor">.Requires</span>(() =&gt; obj != null)<span class="comment">;</span>
+}
+</pre></td></tr></table></figure>
+
+<p>And the results were as follows:</p>
+<img src="/post-images/WindowsLiveWriter/DesignByContractPreconditionsWithExpress_1388A/image_thumb.png">
+
+
+<p>Now the Requires function could probably be optimized (maybe some expression caching), but the difference is quite remarkable.</p>
+<h2>Conclusion</h2>
+<p>In this post I&#39;ve described some of the benefits with Design By Contract and defensive programming and tried to give some insight into using C# 3.0 Expression Trees for avoiding “magic strings” in our precondition checking.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

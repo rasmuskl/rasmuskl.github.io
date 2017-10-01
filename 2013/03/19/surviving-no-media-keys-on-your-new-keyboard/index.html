@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Surviving no media keys on your new keyboard | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="I‘ve recently acquired a new keyboard, after using my trusty old Logitech for many years. I’ve come to rely on my media keys and the volume wheel for ">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Surviving no media keys on your new keyboard"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">Surviving no media keys on your new keyboard</h1>
+  
+
+        
+          <time datetime="2013-03-19T18:41:42.000Z"><a href="/2013/03/19/surviving-no-media-keys-on-your-new-keyboard/">Mar 19 2013</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/AutoHotKey/">AutoHotKey</a>, <a href="/tags/Tips/">Tips</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <p>I‘ve recently acquired a new keyboard, after using my trusty old Logitech for many years. I’ve come to rely on my media keys and the volume wheel for controlling Spotify or other apps. </p>
+<p>My solution is to use <a href="http://www.autohotkey.com" target="_blank">AutoHotKey</a> to bind the following combinations after a short conversation with <a href="http://www.improve.dk" target="_blank">Mark</a> (although we don&#39;t entirely agree on the layout):</p>
+<ul>
+<li>Win + Numpad 4 - Previous track</li>
+<li>Win + Numpad 5 - Play / pause</li>
+<li>Win + Numpad 6 - Next track</li>
+<li>Win + Numpad 8 - Volume up</li>
+<li>Win + Numpad 2 - Volume down</li>
+<li>Win + Numpad 7 - Mute</li>
+</ul>
+<p>Here&#39;s the script to add to AHK:</p>
+<figure class="highlight lang-autohotkey"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="preprocessor">#Numpad4::Send {Media_Prev}</span>
+<span class="preprocessor">#Numpad5::Send {Media_Play_Pause}</span>
+<span class="preprocessor">#Numpad6::Send {Media_Next}</span>
+<span class="preprocessor">#Numpad2::Send {Volume_Down}</span>
+<span class="preprocessor">#Numpad7::Send {Volume_Mute}</span>
+<span class="preprocessor">#Numpad8::Send {Volume_Up}</span>
+</pre></td></tr></table></figure>
+
+<p>… and on a final semi-unrelated note, I&#39;ll recommend my new mechanical keyboard - <a href="http://www.daskeyboard.com/model-s-ultimate-silent/" target="_blank">Das Keyboard S Ultimate Silent</a>. It‘s far from silent - but it’s an awesome keyboard. The keys have a very nice feel as you&#39;re typing along and the keyboard itself is rather heavy (almost 2kg) and thus stay completely in place when typing.</p>
+<img src="/post-images/mechanical_keyboard_hero.jpg" class="center">
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

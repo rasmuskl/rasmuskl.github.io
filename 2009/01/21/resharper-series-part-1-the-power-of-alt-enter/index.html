@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ReSharper Series - Part 1: The Power of Alt+Enter | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="Woo, finally hit part 1 of the ReSharper series and ready to start on the basics of ReSharper. Today we will look at the basic look and feel after you">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="ReSharper Series - Part 1: The Power of Alt+Enter"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">ReSharper Series - Part 1: The Power of Alt+Enter</h1>
+  
+
+        
+          <time datetime="2009-01-21T19:32:45.000Z"><a href="/2009/01/21/resharper-series-part-1-the-power-of-alt-enter/">Jan 21 2009</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/ReSharper/">ReSharper</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <p>Woo, finally hit part 1 of the <a href="/2009/01/10/resharper-series/">ReSharper series</a> and ready to start on the basics of ReSharper. Today we will look at the basic look and feel after you have installed ReSharper and fired up your Visual Studio. Learn one of the most basic commands.</p>
+<p>The single thing you will probably use most in ReSharper is the quick-fix command - which is initiated using <strong>Alt+Enter</strong>. This is a context-based command which will suggest actions based on where your cursor is located. ReSharper provides different visual cues to alert you that an action is available. Lets look at a few examples of the versatility of this command.</p>
+<h2>Implementing Missing Methods</h2>
+<p>Say I am implementing the standard Account class and want to check something with the balance when doing a withdrawal. As I write the code shown below, ReSharper will pop up a red light-bulb on the left of my method as my cursor is on it. This is ReSharper&#39;s way of telling me that an action is available.</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_1.png">
+
+
+<p>When you see a yellow or red light-bulb, pressing <strong>Alt+Enter</strong> brings up the action menu:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_2.png">
+
+
+<p>In this case, ReSharper is offering to create the missing method for me. Picking the default option by hitting the Enter key creates the new method with a default implementation:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_3.png">
+
+
+<p>ReSharper will show these light yellow boxes for on our new method for things that we might want to change. They don&#39;t go too well with my color scheme, but the idea is that ReSharper suggests a return value, a method name and types/names of the arguments. It is easy to navigate between the yellow boxes using either Enter or Tab.</p>
+<p>After all the yellow boxes have been resolved (just pressing Enter to go with the default) the whole exception line will be selected and we&#39;re ready to start implementing our method.</p>
+<p>Errors like this will also often show up as red squigglies like the ones you know from Word.</p>
+<h2>Removing Dead Code</h2>
+<p>Another thing you will probably notice after installing ReSharper is that some of your text turns gray like this:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_4.png">
+
+
+<p>Gray text is ReSharper&#39;s way of letting us know we have dead or unused code. We are not using the amount argument for anything in the method and thus it can safely be removed. Placing our cursor on amount, another light-bulb pops up and gives us the following context menu:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_5.png">
+
+
+<p>This is where we start benefiting from the fact that ReSharper knows the structure of our code. It is suggesting that we remove the parameter and update the usages. In this simple example, the only usage is the Withdraw method above, but this will actually work on much more advanced examples. Accepting the action with Enter removes the parameter and also changes the code in Withdraw method:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_6.png">
+
+
+<p>ReSharper also checks your import statements to see if you are importing namespaces that you are not using and suggests removing them like so: </p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_13.png">
+
+
+<p>Later in the series, we will look at some of ReSharper&#39;s options for choosing namespaces to always import some often used namespaces and ignoring them when scanning for use.</p>
+<h2>Importing Namespaces</h2>
+<p>When using types in namespaces that you have not imported, ReSharper will pop up a blue square to suggest an import like so:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_7.png">
+
+
+<p>No more writing using statements by hand. Recently I‘ve started using ReSharper’s auto-completion (will be visited one of the next parts) for this, but it&#39;s still a very useful feature, again using <strong>Alt+Enter</strong>.</p>
+<h2>Hints and Suggestions</h2>
+<p>ReSharper also supports hints and suggestions, both are actually suggestions for changing something in your code, but hints are less obtrusive and won&#39;t show up when navigating between suggestions and not show up on the scrollbar in the code editor. </p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_8.png">
+
+
+<p>If we look at this bit of code, we notice that the <code>List&lt;string&gt;</code> has a solid green underline - this is a hint. The new keyword has a green squiggly line, which denotes a suggestion. Looking at the scrollbar to the right in our code editor, there&#39;s a small green line - this is ReSharper telling us that there is a suggestion at this point in our code. Hovering the mouse over the line tells us what the suggestion is. Warnings and Errors will show up as yellow and red lines. The hint is not shown as mentioned.</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_14.png">
+
+
+<p>Let us deal with the hint first. This hint is actually for us to use the C# 3.0 var keyword instead of our <code>List&lt;string&gt;</code>. </p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_9.png">
+
+
+<p>I usually don&#39;t like this hint so much, since I feel it sometimes reduces the readability of my code if I overuse the var keyword - luckily there is an option in the context menu to change the inspection options for the particular hint. Pressing Enter brings up the following dialog:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_10.png">
+
+
+<p>Here I can set the severity of not using the var keyword when possible. Since I don&#39;t like it - I choose “Do not show” and press OK. Now the solid green line is gone. Proceeding to press <strong>Alt+Enter</strong> on the suggestion asks me if I want to use a collection initializer instead of calling the add method on the next line:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_11.png">
+
+
+<p>Accepting this removed the call to Add and uses the collection initializer - as expected.</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperEventDay1Basics_97DC/image_thumb_12.png">
+
+
+<h2>Context Is King</h2>
+<p>This post shows some examples of how ReSharper uses the context of your code to suggest “intelligent” options. All examples in this post were resolved pressing <strong>Alt+Enter</strong>. Using this single key combination can save you a lot of writing and often even suggest things that you didn‘t think of. But remember to consider what it’s suggestion (like the var keyword) instead of just doing everything blindly.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

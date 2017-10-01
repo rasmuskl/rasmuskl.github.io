@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Simple ASP.NET MVC Beta AJAX with jQuery! | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="Introduction
+ASP.NET MVC is all the rage these days - and after Microsoft announced their partnership with the great folks over at jQuery and started ">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Simple ASP.NET MVC Beta AJAX with jQuery!"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">Simple ASP.NET MVC Beta AJAX with jQuery!</h1>
+  
+
+        
+          <time datetime="2008-11-05T20:23:19.000Z"><a href="/2008/11/05/simple-aspnet-mvc-beta-ajax-with-jquery/">Nov 5 2008</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/ASP.NET MVC/">ASP.NET MVC</a>, <a href="/tags/C#/">C#</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <h2>Introduction</h2>
+<p><a href="http://www.asp.net/mvc/" target="_blank">ASP.NET MVC</a> is all the rage these days - and after Microsoft <a href="http://weblogs.asp.net/scottgu/archive/2008/09/28/jquery-and-microsoft.aspx" target="_blank">announced</a> their partnership with the great folks over at <a href="http://www.jquery.com" target="_blank">jQuery</a> and started shipping it - I knew I had to explore the whole AJAX experience again. I‘ve still not played too much with the MVC framework, but I am working on switching a few projects over from WebForms - and I must say that the experience is quite different. So I’ve set out to do the smallest (simple) demo possible of ASP.NET MVC AJAX with jQuery - just to get (and give you) the flavor of it.</p>
+<h2>The Story</h2>
+<p>I did play around with the <a href="http://www.asp.net/ajax/" target="_blank">Microsoft AJAX Library</a> earlier, but found it too heavy-weight and never really liked the concept of UpdatePanels. It just seemed like too much server-side cruft and coupled with the rather complex WebForm lifecycle, it just didn‘t seem worth it. I must admit that this is a while ago and I haven’t reinvestigated, but I doubt it has the grace and simplicity of jQuery. So I&#39;ve been using jQuery since forever for various client-side snippets, but never really played around with the AJAX bits since it seemed kind of cumbersome with WebForms.</p>
+<h2>Lets Get Started</h2>
+<p>Okay, so I grabbed the beta bits from the ASP.NET MVC and installed them on my machine and fired up a new ASP.NET MVC site:</p>
+<img src="/post-images/WindowsLiveWriter/ASP.NETMVCBetajQuery_15027/image_thumb.png">
+
+
+<p>The solution now already contains a “Scripts” folder that contains Microsoft AJAX and jQuery. Continued to head into the Site.Master masterpage in Views/Shared to add jQuery. Now I&#39;d caught the glimpse of blog posts mentioning intellisense for jQuery and found this <a href="http://blogs.msdn.com/webdevtools/archive/2008/10/28/rich-intellisense-for-jquery.aspx" target="_blank">post</a> describing how to grab the vsdoc version of jQuery from the jQuery site and plug it in.</p>
+<img src="/post-images/WindowsLiveWriter/ASP.NETMVCBetajQuery_15027/image_thumb_1.png">
+
+
+<p>Since this was just going to be a demo site, I decided to just use the documented version directly, but this proved to be a bad idea. I encountered a few different runtime JavaScript errors while using this version, more specifically related to the ajaxStart event function. The solution apparently involves a masterpage with the following added to the head section:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>&lt;% <span class="keyword">if</span> (<span class="literal">false</span>) { %&gt;
+<span class="xml"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"../../Scripts/jquery-1.2.6-vsdoc.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+<span class="vbscript">&lt;% } %&gt;</span>
+<span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span> <span class="attribute">src</span>=<span class="value">"../../Scripts/jquery-1.2.6.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span>
+</pre></td></tr></table></figure>
+
+<p>The trick here is that Visual Studio will see the vsdoc version and grab documentation from there, but it will never actually load on your pages. As described in the before mentioned post, this will be fixed and in the future it should be enough to reference the original jQuery file and have the vsdoc version present. I also found that the intellisense was kind of flaky (not showing up) sometimes in nested functions, hopefully this will be fixed as well.</p>
+<p>Next I grabbed the Index.aspx view in Views/Home and cleared out all the contents of the Content PlaceHolder and added a bit of HTML:</p>
+<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">id</span>=<span class="value">"name"</span> /&gt;</span>
+    <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"link"</span>&gt;</span>Click me!<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"result"</span> <span class="attribute">style</span>=<span class="value">"margin-top: 15px"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>This is just plain and simple HTML, with a “void” link that doesn&#39;t go anywhere. It looks like this:</p>
+<img src="/post-images/WindowsLiveWriter/ASP.NETMVCBetajQuery_15027/image_thumb_2.png">
+
+
+<p>Now one of the great forces about jQuery is it‘s power to hook into the DOM using powerful selectors. This means that you can have your JavaScript almost completely separated from your HTML. I’ve often had several small jQuery files that would completely change the appearance of a page and add all kinds of fancy if they were included. This also makes it very easy to enable / disable effects and even test your page degradation for users who have JavaScript disabled (just remove your script reference). However, for simplicity, I&#39;ve just included my jQuery directly in a script tag:</p>
+<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript">
+    $(document).ready(<span class="keyword">function</span>() {
+        <span class="comment">// Register a click handler on our link</span>
+        $(<span class="string">"#link"</span>).click(<span class="keyword">function</span>() {
+            <span class="comment">// Perform a get with a callback of updateResult</span>
+            $.get(<span class="string">"/Home/AjaxHtml"</span>, getName(), updateResult, <span class="string">"html"</span>);
+        });
+        <span class="comment">// Extract name from textbox as associative array (JSON)</span>
+        <span class="function"><span class="keyword">function</span> <span class="title">getName</span><span class="params">()</span> {</span>
+            <span class="keyword">return</span> { name: $(<span class="string">"#name"</span>).val() };
+        }
+        <span class="comment">// Append HTML to the result div</span>
+        <span class="function"><span class="keyword">function</span> <span class="title">updateResult</span><span class="params">(html)</span> {</span>
+            $(<span class="string">"#result"</span>).append(html);
+        }
+    });
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>Now I decided not to start doing JavaScript templating and return lots of JSON data. Instead I&#39;m just going to pull a normal HTML page from the HomeController and append the data to the result div. Most of the magic is in the click function which registers a handler to grab the defined page /Home/AjaxHtml with the name entered in the textbox as parameter and to execute the updateResult function when the data comes back. After this it was time to add the action to the HomeController: </p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">public</span> ActionResult AjaxHtml(<span class="built_in">string</span> name)
+{
+    Thread.Sleep(<span class="number">3000</span>);
+    return View(<span class="string">"AjaxHtml"</span>, <span class="keyword">new</span> { Name=name, <span class="built_in">Time</span>=DateTime.<span class="built_in">Now</span> });
+}
+</pre></td></tr></table></figure>
+
+<p>Rather simple really. Just sleeps for a few seconds (to allow me to see the load on my local dev machine) and then renders a new view called AjaxHtml with a simple Dictionary containing the passed argument name and the current time as ViewModel. I also added a new View called AjaxHtml:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>&lt;%@ Page Language=<span class="string">"C#"</span> AutoEventWireup=<span class="string">"true"</span> 
+ CodeBehind=<span class="string">"AjaxHtml.aspx.cs"</span> 
+ Inherits=<span class="string">"MvcAjaxTest.Views.Home.AjaxHtml"</span> %&gt;
+Ajax Call: <span class="xml"><span class="vbscript">&lt;%= ViewData.Model %&gt;</span><span class="tag">&lt;<span class="title">br</span> /&gt;</span></span>
+</pre></td></tr></table></figure>
+
+<p>The only thing to note about this is that I didn‘t use my normal masterpage for this page - since I’m only interested in passing this little tidbit of HTML back - not my entire page layout. Launching the application again, typing a name and hitting the link produces the following without a full page reload:</p>
+<img src="/post-images/WindowsLiveWriter/ASP.NETMVCBetajQuery_15027/image_thumb_3.png">
+
+
+<p>Additional clicks append further AJAX lines like so:</p>
+<img src="/post-images/WindowsLiveWriter/ASP.NETMVCBetajQuery_15027/image_thumb_4.png">
+
+
+<p>Obviously this could have been some other information posted - but this little sample contains both information from client-side (the name) and some data appended by the server (the timestamp).</p>
+<h2>Load Indicator</h2>
+<p>Now, after doing all this, it didn‘t feel so impressive to click the link and wait for 3 seconds for another line of text to appear, so the obvious solution is to add some extra effects - and it’s not like it&#39;s real AJAX [tm] if it ain&#39;t got a cool load indicator. So off I went to the kind people at <a href="http://www.ajaxload.info/" target="_blank">ajaxload.info</a> where you can customize your own animated gif load indicator. I went with the shape called “Snake” with a nice blue MVC template-like color.</p>
+<p>Adding the load indicator was a breeze really. I just threw the load indicator in an invisible image after the link:</p>
+<figure class="highlight lang-html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">div</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"text"</span> <span class="attribute">id</span>=<span class="value">"name"</span> /&gt;</span>
+    <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"#"</span> <span class="attribute">id</span>=<span class="value">"link"</span>&gt;</span>Click me!<span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">img</span> <span class="attribute">id</span>=<span class="value">"loading"</span> <span class="attribute">style</span>=<span class="value">"visibility: hidden"</span> 
+      <span class="attribute">src</span>=<span class="value">"../../Content/small-ajax.gif"</span> /&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"result"</span> <span class="attribute">style</span>=<span class="value">"margin-top: 15px"</span>&gt;</span><span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>Note that I used the CSS style visibility: hidden instead of using display: none. Both work, but when using display: none, the space for the image is not reserved on the page, which caused a small annoying “jump” effect on my page as the load indicator appeared (and was a few pixels taller than the link text). With the visibility style, space is actually reserved for the image and the line doesn&#39;t jump.</p>
+<p>All we have left is hooking the load indicator onto jQuerys AJAX call - for a simple scenario like this, the global AJAX events called ajaxStart and ajaxStop are just what we need. ajaxStart will run whenever an AJAX request is started and ajaxStop will run whenever one ends. So at the end of my script block (after the updateResult function), I added the following:</p>
+<figure class="highlight lang-js"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>$(<span class="string">"#loading"</span>).ajaxStart(<span class="keyword">function</span>() { $(<span class="keyword">this</span>).css(<span class="string">"visibility"</span>, <span class="string">"visible"</span>); });
+$(<span class="string">"#loading"</span>).ajaxStop(<span class="keyword">function</span>() { $(<span class="keyword">this</span>).css(<span class="string">"visibility"</span>, <span class="string">"hidden"</span>); });
+</pre></td></tr></table></figure>
+
+<p>If we had used display: none instead, we could have used the jQuery functions show() and hide() instead of the whole CSS stunt, but I like this better. Firing up the browser and hitting the link now produces enough eye candy to distract my eyes from the 3 second wait:</p>
+<img src="/post-images/WindowsLiveWriter/ASP.NETMVCBetajQuery_15027/image_thumb_5.png">
+
+
+<h2>Resources</h2>
+<p>Now this is definitely only a beginning. You&#39;d want to do some proper error handling and probably some more advanced scenarios.<br>If you want to find more information on ASP.NET MVC, you definitely want to go read / subscribe to some of these blogs: <a href="http://weblogs.asp.net/Scottgu/" target="_blank">ScottGu</a>, <a href="http://haacked.com/" target="_blank">Phil Haack</a>, <a href="http://blog.wekeroad.com/" target="_blank">Rob Conery</a> (especially the Storefront series), <a href="http://weblogs.asp.net/StephenWalther/" target="_blank">Stephen Walther</a> and many more.<br>As for more jQuery, there‘s been a storm of posts about this lately, which should be easy to find, but for documentation, nothing beats the plain ol’ jQuery <a href="http://docs.jquery.com/" target="_blank">documentation</a> or a personal favorite of mine for quick access: <a href="http://visualjquery.com/" target="_blank">visual jQuery</a>, a jQuery-optimized version of the jQuery docs. </p>
+<h2>Conclusion</h2>
+<p>In this post I gave a quick introduction to the world of AJAX using jQuery with ASP.NET MVC. I really enjoy the model and simplicity. It just feels right - and finally I have control over my HTML. Hope it was useful for you as well.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

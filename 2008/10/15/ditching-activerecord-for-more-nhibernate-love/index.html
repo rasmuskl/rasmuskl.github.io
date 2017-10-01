@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ditching ActiveRecord For More NHibernate Love | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="Introduction
+I had a project using an old version of Castle ActiveRecord and NHibernate 1.2. Lately there‘s been a lot of interesting projects surroun">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Ditching ActiveRecord For More NHibernate Love"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">Ditching ActiveRecord For More NHibernate Love</h1>
+  
+
+        
+          <time datetime="2008-10-15T20:19:00.000Z"><a href="/2008/10/15/ditching-activerecord-for-more-nhibernate-love/">Oct 15 2008</a></time>
+        
+        
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <h2>Introduction</h2>
+<p>I had a project using an old version of <a href="http://www.castleproject.org/activerecord/index.html" target="_blank">Castle ActiveRecord</a> and <a href="http://www.hibernate.org/343.html" target="_blank">NHibernate</a> 1.2. Lately there‘s been a lot of interesting projects surrounding NHibernate and I’ve been wanting to make the switch away from the old version of ActiveRecord. </p>
+<p>ActiveRecord is a thin layer on top of NHibernate that makes it easier to use and configure, especially through configuration using attributes on classes and properties (hence the <a href="http://en.wikipedia.org/wiki/Active_record_pattern" target="_blank">ActiveRecord</a> name as seen in Ruby on Rails). However unless you build all the tools yourself, it can be quite the dependency hell to play around with all the new NHibernate toys. So I wanted to eradicate ActiveRecord from my reference list and upgrade NHibernate from 1.2. So I thought I&#39;d share my experiences and some of the useful links I found along the way.</p>
+<h2>Fluent NHibernate</h2>
+<p>One of the new things I wanted to try out for NHibernate was <a href="http://code.google.com/p/fluent-nhibernate/" target="_blank">Fluent NHibernate</a>, a refreshing new way of doing configuration using a fluent interface in C#. NHibernate is usually configured through XML files that look something like this: </p>
+<figure class="highlight lang-xml"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre></td><td class="code"><pre><span class="pi">&lt;?xml version="1.0" encoding="utf-16"?&gt;</span>
+<span class="tag">&lt;<span class="title">hibernate-mapping</span>  <span class="attribute">auto-import</span>=<span class="value">"true"</span> <span class="attribute">default-lazy</span>=<span class="value">"false"</span> <span class="attribute">xmlns:xsd</span>=<span class="value">"http://www.w3.org/2001/XMLSchema"</span> <span class="attribute">xmlns:xsi</span>=<span class="value">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attribute">xmlns</span>=<span class="value">"urn:nhibernate-mapping-2.2"</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">class</span> <span class="attribute">name</span>=<span class="value">"Model.Survey, Model"</span> <span class="attribute">table</span>=<span class="value">"Surveys"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">id</span> <span class="attribute">name</span>=<span class="value">"Id"</span> <span class="attribute">access</span>=<span class="value">"property"</span> <span class="attribute">column</span>=<span class="value">"Id"</span> <span class="attribute">type</span>=<span class="value">"System.Guid"</span> <span class="attribute">unsaved-value</span>=<span class="value">"00000000-0000-0000-0000-000000000000"</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">generator</span> <span class="attribute">class</span>=<span class="value">"assigned"</span>&gt;</span>
+      <span class="tag">&lt;/<span class="title">generator</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">id</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"Name"</span> <span class="attribute">access</span>=<span class="value">"property"</span> <span class="attribute">type</span>=<span class="value">"String"</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">column</span> <span class="attribute">name</span>=<span class="value">"Name"</span>/&gt;</span>
+    <span class="tag">&lt;/<span class="title">property</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"Label"</span> <span class="attribute">access</span>=<span class="value">"property"</span> <span class="attribute">type</span>=<span class="value">"String"</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">column</span> <span class="attribute">name</span>=<span class="value">"Label"</span>/&gt;</span>
+    <span class="tag">&lt;/<span class="title">property</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"HeaderFile"</span> <span class="attribute">access</span>=<span class="value">"property"</span> <span class="attribute">type</span>=<span class="value">"String"</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">column</span> <span class="attribute">name</span>=<span class="value">"HeaderFile"</span>/&gt;</span>
+    <span class="tag">&lt;/<span class="title">property</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">property</span> <span class="attribute">name</span>=<span class="value">"FooterFile"</span> <span class="attribute">access</span>=<span class="value">"property"</span> <span class="attribute">type</span>=<span class="value">"String"</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">column</span> <span class="attribute">name</span>=<span class="value">"FooterFile"</span>/&gt;</span>
+    <span class="tag">&lt;/<span class="title">property</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">class</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">hibernate-mapping</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+
+<p>Actually I don‘t mind XML files that much, except that they are cumbersome to write. But moving to code has it’s merits. First of all you get the static type checking from the compiler, which is nice for avoiding spelling mistakes and such. Secondly, having your mapping directly in code makes it refactor-friendly. Renaming properties will automagically propagate to your mapping and reduce strange errors. However, unless you specify column names for your mapping, you might end up refactoring your database indirectly (depending on how you manage your schema), so keep that in mind. Third of all I like the clarity and readability of the configuration:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="id">SurveyMap</span> : <span class="id">ClassMap</span>&lt;<span class="id">Survey</span>&gt;</span>
+{
+    <span class="keyword">public</span> SurveyMap()
+    {
+        WithTable(<span class="string">"Surveys"</span>);
+
+        Id(x =&gt; x<span class="variable">.Id</span>)<span class="variable">.GeneratedBy</span><span class="variable">.Assigned</span>();
+
+        Map(x =&gt; x<span class="variable">.Name</span>);
+        Map(x =&gt; x<span class="variable">.Label</span>);
+        Map(x =&gt; x<span class="variable">.HeaderFile</span>);
+        Map(x =&gt; x<span class="variable">.FooterFile</span>);
+    }
+}
+</pre></td></tr></table></figure>
+
+
+<p>Notice the clever use of lambdas and expressions to avoid strings. Nice indeed. The Fluent NHibernate package also includes a some “framework” classes to ease the testing of your database mappings, as outlined in this <a href="http://codebetter.com/blogs/jeremy.miller/archive/2008/06/18/working-faster-and-fewer-mapping-errors-with-nhibernate.aspx" target="_blank">post</a> by <a href="http://codebetter.com/blogs/jeremy.miller/default.aspx" target="_blank">Jeremy Miller</a>.</p>
+<h2>LINQ to NHibernate</h2>
+<p>I haven&#39;t had much time to try LINQ yet, so getting my NHibernate upgraded meant a chance to try out <a href="http://www.hookedonlinq.com/LINQToNHibernate.ashx" target="_blank">LINQ to NHibernate</a>. Actually LINQ to NHibernate is scheduled for NHibernate 2.1, which is not out yet, but <a href="http://slagd.com/" target="_blank">Daniel Guenter</a> has created a backport for NHibernate 2.0. Playing around with it was a pleasant change from writing SQL or HQL in in strings. I haven&#39;t spend that much time on expanding the use of <code>IQueryable&lt;T&gt;</code> into my application yet, but I did convert my repositories so they use LINQ now. I really want to experiment more with this and I think I&#39;ll draw some inspiration from this <a href="http://skarpt.dk/blog/?p=16" target="_blank">post</a> by <a href="http://skarpt.dk/blog/" target="_blank">Søren Skovsbøll</a> on his repository layout.</p>
+<h2>Gotchas</h2>
+<p>I ran into a few issues when doing the actual conversion.</p>
+<p>As my focus was to upgrade my version of NHibernate, I didn&#39;t want to convert all my mappings to Fluent NHibernate from the beginning, so I wanted to generate the XML mapping files from my ActiveRecord configuration and then use these as my basis for going fluent later. However, I was using an InPlaceConfiguration with ActiveRecord which is really just a glorified dictionary of properties for setting up connection strings and such instead of an XML file or a web.config section. ActiveRecord Configurations have a Debug property which will output the XML mapping files for you, but unfortunately this property was read-only in my old version of ActiveRecord. I actually checked and it seems to be fixed in the ActiveRecord trunk. So I converted my InPlaceConfiguration into an XML file and enabled debug to get my mappings.</p>
+<p>There was some breaking changes in NHibernate 2.0, as outlined in this <a href="http://ayende.com/Blog/archive/2008/03/31/NHibernate-2.0-Alpha-is-out.aspx" target="_blank">list</a> by Ayende. The only one I ran into was that configuration values no longer were prefixed with “hibernate”. This threw me off with some peculiar errors at first until I found the list.</p>
+<p>The last thing I ran into was actually a feature from ActiveRecord that I use on application startup called <code>VerifyModelsAgainstDBSchema</code>. What this does is to verify that the database schema has the necessary table and columns to fit your mapping. Since the application is question is designed to be very drop-able in terms of throwing it into a web directory and starting it up, I&#39;ve included functionality to create the database if needed. Luckily, this feature is implementing using very little code. If using LINQ to NHibernate, it can be done as easy as:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="keyword">try</span>
+{
+    <span class="keyword">var</span> query = (<span class="keyword">from</span> o <span class="keyword">in</span> Session.Linq&lt;Object&gt;()
+                 <span class="keyword">where</span> <span class="number">1</span> == <span class="number">0</span>
+                 <span class="keyword">select</span> o);
+    query.ToList();
+    IsDBInitialized = <span class="keyword">true</span>;
+}
+<span class="keyword">catch</span> (ADOException ex)
+{
+    _dbExceptions.Add(ex);
+}
+</pre></td></tr></table></figure>
+
+
+<p>The trick (as far as I understand) is that NHibernate supports polymorphism in query engine, so by querying for objects of type Object, you&#39;re actually grabbing all the tables in your mapping and thus checking the consistency - since the SQL statement will fail on invalid table and/or column names. By adding the always <code>false</code> statement <code>1 == 0</code>, you make sure that you don&#39;t actually pull anything from the database. Clever.</p>
+<h2>Conclusion</h2>
+<p>In this post I described my 8-hour hike from an ancient version of ActiveRecord to NHibernate 2.0. It was actually very smooth and the problems were easily solved. I&#39;m really looking forward to working more with these new exciting technologies. Enjoy.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

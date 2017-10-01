@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Evolution of Solutions - and Perceived Performance | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="I entered a small competition yesterday and wanted to write a short post describing my progress and findings. The competition was rather simple, write">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Evolution of Solutions - and Perceived Performance"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">Evolution of Solutions - and Perceived Performance</h1>
+  
+
+        
+          <time datetime="2008-12-19T23:04:48.000Z"><a href="/2008/12/20/evolution-of-solutions-and-perceived-performance/">Dec 20 2008</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/C#/">C#</a>, <a href="/tags/Algorithms/">Algorithms</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <p>I entered a small competition yesterday and wanted to write a short post describing my progress and findings. The competition was rather simple, write a method that returns an array containing the numbers from 1 to 1000 in a random order.</p>
+<p>My first solution was the naive LINQ solution. </p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] NaiveLinq(<span class="keyword">int</span> max)
+{
+    <span class="keyword">var</span> random = <span class="keyword">new</span> Random();
+    <span class="keyword">var</span> query = <span class="keyword">from</span> number <span class="keyword">in</span> Enumerable.Range(<span class="number">1</span>, max)
+                <span class="keyword">orderby</span> random.Next()
+                <span class="keyword">select</span> number;
+    <span class="keyword">return</span> query.ToArray();
+}
+</pre></td></tr></table></figure>
+
+<p>I reckoned that several people would post this solution, so I felt like doing something slightly more fancy - and since parallelization is so hot these days, why not do it with PLINQ instead, so it would actually be faster on multi-core systems. The change is really simple.</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] PLinq(<span class="keyword">int</span> max)
+{
+    <span class="keyword">var</span> random = <span class="keyword">new</span> Random();
+    <span class="keyword">var</span> query = <span class="keyword">from</span> number <span class="keyword">in</span> ParallelEnumerable.Range(<span class="number">1</span>, max)
+                <span class="keyword">orderby</span> random.Next()
+                <span class="keyword">select</span> number;
+    <span class="keyword">return</span> query.ToArray();
+}
+</pre></td></tr></table></figure>
+
+<p>I benchmarked it (on my quad-core machine), and saw that the PLINQ solution was indeed faster - but only for rather big solutions, the overhead was simply too big in small instances of the problem (array size &lt; 3000). This is not too well for a competition that is supposed to make arrays of size 1000. However, reluctant to ditch my parallel idea, I made a hybrid solution, which would use regular LINQ for small instances and PLINQ for big instances, based on my benchmark:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] GenerateUsingHybridLinq(<span class="keyword">int</span> arrayLength)
+{
+    <span class="keyword">var</span> random = <span class="keyword">new</span> Random();
+    <span class="comment">// Use PLINQ if we're above the "very scientific" limit of 3000.</span>
+    <span class="keyword">if</span> (arrayLength &gt;= <span class="number">3000</span>)
+    {
+        <span class="keyword">return</span> (<span class="keyword">from</span> i <span class="keyword">in</span> ParallelEnumerable.Range(<span class="number">1</span>, arrayLength)
+                <span class="keyword">orderby</span> random.Next()
+                <span class="keyword">select</span> i).ToArray();
+    }
+    <span class="keyword">return</span> (<span class="keyword">from</span> i <span class="keyword">in</span> Enumerable.Range(<span class="number">1</span>, arrayLength)
+            <span class="keyword">orderby</span> random.Next()
+            <span class="keyword">select</span> i).ToArray();
+}
+</pre></td></tr></table></figure>
+
+<p>I posted this solution to the competition and decided I had spent enough time on it. However, it bugged me because I knew that the <code>Random</code> class in the .NET framework is not guaranteed to be thread-safe. It also bugged be that I was actually solving a shuffling problem by sorting. Shuffling can be solved in O(n) while sorting is O(n*log(n)). In addition I thought that the LINQ solutions were kind of dull. </p>
+<p>So I decided to take a stab at solving it without resolving to sorting. Shuffling is a well known problem, so I implemented the <a href="http://en.wikipedia.org/wiki/Fisher-Yates_shuffle" target="_blank">Fisher-Yates algorithm</a>, often used for shuffling cards. It is actually a rather elegant algorithm.</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+</pre></td><td class="code"><pre>public static int[] Generate()
+{
+    Random random = new Random();
+    var numbers = new int[<span class="number">1000</span>];
+    // Add sorted numbers <span class="keyword">to</span> shuffle
+    <span class="keyword">for</span> (var i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++)
+        numbers[i] = i + <span class="number">1</span>;
+    var <span class="keyword">last</span> = numbers.Length;
+    <span class="keyword">while</span> (<span class="keyword">last</span> &gt; <span class="number">1</span>)
+    {
+        // Select a random entry <span class="keyword">in</span> <span class="keyword">the</span> array <span class="keyword">to</span> swap
+        var swap = random.Next(<span class="keyword">last</span>);
+        // Decrease relevant <span class="keyword">end</span> <span class="keyword">of</span> array
+        <span class="keyword">last</span> = <span class="keyword">last</span> - <span class="number">1</span>;
+        // Swap numbers using XOR swap, we don't need no stinkin' temp variables
+        <span class="keyword">if</span> (<span class="keyword">last</span> != swap)
+        {
+            numbers[<span class="keyword">last</span>] ^= numbers[swap];
+            numbers[swap] ^= numbers[<span class="keyword">last</span>];
+            numbers[<span class="keyword">last</span>] ^= numbers[swap];
+        }
+    }
+<span class="command">    return</span> numbers;
+}
+</pre></td></tr></table></figure>
+
+<p>I adjusted it a bit and finally found a place to make an ode to the awesomeness that is <a href="http://en.wikipedia.org/wiki/Xor_swap_algorithm" target="_blank">XOR swap</a>, swapping two values without using a temporary variable. Even though the algorithm was faster asymptotically, I was curious how it would venture against the sort-based LINQ solutions performance-wise. Here is the result:</p>
+<img src="/post-images/WindowsLiveWriter/EvolutionofSolutionsandPerceivedPerforma_118/image_thumb.png">
+
+
+<p>Note that both HLINQ and PLINQ use all 4 cores on my quad-core machine. I realize there‘s an overhead using LINQ, but I’m still impressed how much faster this simple little algorithm is.</p>
+<p>I submitted my new solution, with a note to replace my hybrid solution, just before midnight, but unfortunately I think it might have been too late, it didn‘t seem to make the cut for the competition. At least my hybrid solution made it into the final round - and non-thread-safe Random surely won’t be a problem for instances of size 1000 - since it will use regular LINQ for that.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

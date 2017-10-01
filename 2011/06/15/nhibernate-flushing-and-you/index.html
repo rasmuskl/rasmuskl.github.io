@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>NHibernate Flushing and You | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="Working with NHibernate, you will eventually have to know something about flushing. Flushing is the process of persisting the current session changes ">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="NHibernate Flushing and You"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">NHibernate Flushing and You</h1>
+  
+
+        
+          <time datetime="2011-06-14T23:47:21.000Z"><a href="/2011/06/15/nhibernate-flushing-and-you/">Jun 15 2011</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/NHibernate/">NHibernate</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <p>Working with NHibernate, you will eventually have to know something about flushing. Flushing is the process of persisting the current session changes to the database. In this post, I will explain how flushing works in NHibernate, which options you have and what the benefits and disadvantages are.</p>
+<p>As you work with the NHibernate session, loading existing entities and attaching new entities, NHibernate will keep track of the objects that are associated with current session. When a flush is triggered, NHibernate will perform dirty checking; inspect the list of attached entities to determine what needs to be saved and which SQL statements are required to persist the changes.</p>
+<p>NHibernate offers several different flush modes that determine when a flush is triggered. The flush mode can be set using a property on the session (usually when opening the session).</p>
+<p>Out of the box NHibernate defaults to <strong>FlushMode.Auto</strong> which is a flush mode that offers a minimum of surprises while providing decent performance. Auto will flush changes to the database when a manual flush is performed (using ISession.Flush()), when a transaction is committed and when NHibernate deems that an auto flush is necessary to serve up-to-date results in response to queries. While the auto flush is convenient, it does cause a few disadvantages as well. To determine whether an auto flush is required before executing a query NHibernate has to inspect the entities attached to the session. This is clearly a performance overhead and unfortunately as application complexity (and thus likely session length, number of queries and number of attached entities) increases, the cost will be in the ballpark of O(q<em>e) – quadratic growth based on number of <strong>q</strong>ueries and <em>*e</em></em>ntities. Furthermore auto flushes are not always easy to predict, especially in complex systems – this can lead to unexpected exceptions if using things like NHibernates merge and replicate features (a blog post all by itself).</p>
+<p>A better solution for bigger applications is <strong>FlushMode.Commit</strong>, this flush mode will flush on manual flushes and when transactions are committed. Avoiding auto flushes provides quite a few performance opportunities, it will potentially require fewer SQL statements (multiple changes to the same data), it will cause fewer round trips to the database and thus enable better batching. What you need to understand before changing your flush mode to FlushMode.Commit is that your queries may return stale results until you commit transactions. However, this is generally what people expect when working with transactions, so it is usually not a problem. In some cases, you might have to perform a manual flush, but it makes sense to reduce the number of these (since they defeat the benefit of the flush mode).</p>
+<p>NHibernate offers two more (usable) flush modes. <strong>FlushMode.Always</strong> will trigger a flush before every query and is thus generally not useful except for maybe some special edge cases. <strong>FlushMode.Never</strong> will cause the session to only flush when manually flushing – this can be useful to create a read-only session (better performance and more assurance that no flushes are performed). For read-only / bulk needs, it’s also practical to look into IStatelessSession (low memory / performant for bulk operations) and ReadOnly on queries and criterias introduced in NHibernate 3.1.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

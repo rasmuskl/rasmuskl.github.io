@@ -1,0 +1,299 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Why AAA style mocking is better than Record / Playback | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="If you‘ve followed me on twitter for more than a couple of days, you will most probably have heard my grumbling each time I run into issues using reco">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Why AAA style mocking is better than Record / Playback"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">Why AAA style mocking is better than Record / Playback</h1>
+  
+
+        
+          <time datetime="2009-05-24T19:06:52.000Z"><a href="/2009/05/24/why-aaa-style-mocking-is-better-than-record-playback/">May 24 2009</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Mocking/">Mocking</a>, <a href="/tags/Testing/">Testing</a>, <a href="/tags/C#/">C#</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <p>If you‘ve followed me on twitter for more than a couple of days, you will most probably have heard my grumbling each time I run into issues using record / playback mocking - so I thought I’d write a short post on my experiences with both and why I think that I keep bumping into issues with record / playback.</p>
+<h2>Phases of a test</h2>
+<p>If you take a look at the normal flow of a test method without mocking, it will usually perform some kind of setup, then perform some action that invokes the code under test - and then at the end, make some assertions about the state of some component that you want verified. While some tests continue after this point, this is where you should stop if you&#39;re following the “one assert per test” rule - this is sort of the single responsibility principle for tests. This flow is also the inspiration for the AAA name - first you <strong>Arrange </strong>your test setup, then you <strong>Act</strong> upon the class under test - and then you <strong>Assert</strong> something about the state. Here&#39;s a simple example without mocking:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre>[Test]
+<span class="keyword">public</span> <span class="keyword">void</span> CanRemoveCategories()
+{
+    <span class="comment">// Arrange</span>
+    var collection = new CategoryCollection(<span class="string">"test"</span>);
+    <span class="comment">// Act</span>
+    collection<span class="variable">.RemoveCategory</span>(<span class="string">"test"</span>);
+    <span class="comment">// Assert</span>
+    Assert<span class="variable">.That</span>(collection<span class="variable">.Count</span>, Is<span class="variable">.EqualTo</span>(<span class="number">0</span>));
+}
+</pre></td></tr></table></figure>
+
+<p>This test is chronologically sound, it makes sense and it is easy to read - but then again, this is a state-based test, I said I was going to talk about behavioral tests - mock tests.</p>
+<h2>Phase confusion</h2>
+<p>Many people find that mocking is rather difficult to understand and that it often very hard to read and understand. Since our tests act as an API-description for our code - and since we want to be able to figure out how to fix our failed tests - readability is important. Now, let‘s look at one of my tests from a Record / Playback point of view. I’m using Rhino Mocks as my mocking framework in this test:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre></td><td class="code"><pre>[Test]
+public void ShouldIgnoreRespondentsThatDoesNotExistRecordPlayback()
+{
+    var guid = Guid<span class="preprocessor">.NewGuid</span>()<span class="comment">;</span>
+    IEventRaiser executeRaiser<span class="comment">;</span>
+    using(_mocks<span class="preprocessor">.Record</span>())
+    {
+        Expect<span class="preprocessor">.Call</span>(_view<span class="preprocessor">.Respondents</span>)<span class="preprocessor">.Return</span>(new[] {guid<span class="preprocessor">.ToString</span>()})<span class="comment">;</span>
+        Expect<span class="preprocessor">.Call</span>(_repository<span class="preprocessor">.GetById</span>(guid))<span class="preprocessor">.Return</span>(null)<span class="comment">;</span>
+        _view<span class="preprocessor">.ExecuteOperation</span> += null<span class="comment">;</span>
+        executeRaiser = LastCall<span class="preprocessor">.IgnoreArguments</span>()
+            <span class="preprocessor">.Repeat</span><span class="preprocessor">.Any</span>()
+            <span class="preprocessor">.GetEventRaiser</span>()<span class="comment">;</span>
+        Expect<span class="preprocessor">.Call</span>(_view<span class="preprocessor">.OperationErrors</span> = null)
+            <span class="preprocessor">.IgnoreArguments</span>()
+            <span class="preprocessor">.Constraints</span>(List<span class="preprocessor">.IsIn</span>(<span class="string">"Non-existant respondent: "</span> + guid))<span class="comment">;</span>
+    }
+    using(_mocks<span class="preprocessor">.Playback</span>())
+    {
+        new BulkRespondentPresenter(_view, _repository)<span class="comment">;</span>
+        executeRaiser<span class="preprocessor">.Raise</span>(null, EventArgs<span class="preprocessor">.Empty</span>)<span class="comment">;</span>
+    }
+}
+</pre></td></tr></table></figure>
+
+<p>Now, at a glance, can you tell me what this test is really doing? There‘s something with a view and a repository and we can probably deduce quite a bit from the test name. But it’s rather hard to separate the different phases I talked about before <strong>Arrange</strong>, <strong>Act</strong> and <strong>Assert</strong>. Below, I&#39;ve tried to annotate the test with the phases:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre></td><td class="code"><pre>[Test]
+ public void ShouldIgnoreRespondentsThatDoesNotExistRecordPlayback()
+ {
+     // Arrange
+     var guid = Guid<span class="preprocessor">.NewGuid</span>()<span class="comment">;</span>
+     // Part of Act
+     IEventRaiser executeRaiser<span class="comment">;</span>
+     using(_mocks<span class="preprocessor">.Record</span>())
+     {
+         // Arrange (<span class="keyword">or</span> Assert?)
+         Expect<span class="preprocessor">.Call</span>(_view<span class="preprocessor">.Respondents</span>)<span class="preprocessor">.Return</span>(new[] {guid<span class="preprocessor">.ToString</span>()})<span class="comment">;</span>
+         Expect<span class="preprocessor">.Call</span>(_repository<span class="preprocessor">.GetById</span>(guid))<span class="preprocessor">.Return</span>(null)<span class="comment">;</span>
+         // Part of Act
+         _view<span class="preprocessor">.ExecuteOperation</span> += null<span class="comment">;</span>
+         executeRaiser = LastCall<span class="preprocessor">.IgnoreArguments</span>()
+             <span class="preprocessor">.Repeat</span><span class="preprocessor">.Any</span>()
+             <span class="preprocessor">.GetEventRaiser</span>()<span class="comment">;</span>
+         // Assert
+         Expect<span class="preprocessor">.Call</span>(_view<span class="preprocessor">.OperationErrors</span> = null)
+             <span class="preprocessor">.IgnoreArguments</span>()
+             <span class="preprocessor">.Constraints</span>(List<span class="preprocessor">.IsIn</span>(<span class="string">"Non-existant respondent: "</span> + guid))<span class="comment">;</span>
+     }
+     using(_mocks<span class="preprocessor">.Playback</span>())
+     {
+         // Arrange
+         new BulkRespondentPresenter(_view, _repository)<span class="comment">;</span>
+         // Act
+         executeRaiser<span class="preprocessor">.Raise</span>(null, EventArgs<span class="preprocessor">.Empty</span>)<span class="comment">;</span>
+     }
+ }
+</pre></td></tr></table></figure>
+
+<p>No wonder it&#39;s hard to read and understand. The phases are mixed all over - and the Asserts are in the middle of the test - this is <u>nothing</u> like the natural flow of the previous test without mocking. I usually like to have the phases separated in my test with comments as well, but it&#39;s just not possible in this test. I wrote this test up rather quickly, so there might be a better way of doing it that I am missing - if there is, please yell at me :-)</p>
+<h2>Sorting out the confusion</h2>
+<p>AAA mocking, as the name suggests, is all about clearing out the confusion in that last test - it‘s about maintaining the original test flow. It just so happens also to have some other benefits, that I will get into later in the post. I’ve written the same test as above in an AAA style, this time with Moq, since I‘m trying it out at the moment, but Rhino Mocks has similar syntax. Moq is pretty heavy on lambda expressions, but even if you haven’t worked with those yet, I&#39;m sure you will grasp the idea. If you want a general introduction to mocking with Moq, <a href="http://www.codethinked.com/" target="_blank">Justin Etheredge</a> has a small <a href="http://www.codethinked.com/post/2009/03/13/Beginning-Mocking-With-Moq-3-Part-1.aspx" target="_blank">series</a> about it.</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre>[Test]
+<span class="keyword">public</span> <span class="keyword">void</span> ShouldIgnoreRespondentsThatDoesNotExist()
+{
+    <span class="comment">// Arrange</span>
+    var guid = Guid<span class="variable">.NewGuid</span>();
+    _viewMock<span class="variable">.Setup</span>(x =&gt; x<span class="variable">.Respondents</span>)<span class="variable">.Returns</span>(new[] { guid<span class="variable">.ToString</span>() });
+    _repositoryMock<span class="variable">.Setup</span>(x =&gt; x<span class="variable">.GetById</span>(guid))<span class="variable">.Returns</span>(() =&gt; null);
+    <span class="comment">// Act</span>
+    _viewMock<span class="variable">.Raise</span>(x =&gt; x<span class="variable">.ExecuteOperation</span> += null, EventArgs<span class="variable">.Empty</span>);
+    <span class="comment">// Assert</span>
+    _viewMock<span class="variable">.VerifySet</span>(x =&gt; x<span class="variable">.OperationErrors</span> =
+        It<span class="variable">.Is</span>&lt;IList&lt;string&gt;&gt;(l =&gt; l<span class="variable">.Contains</span>(<span class="string">"Non-existant respondent: "</span>+guid)));
+}
+</pre></td></tr></table></figure>
+
+<p>Those comments are actually in my original test as well - and in my test live template I generate all my tests with. If you compare this test to the one above, you will see that it has more or less the same components, but this time, they&#39;re arranged in a way that makes sense for the next reader of the test. The fact that the test is shorter is also slightly unfair, since my first test used an event raiser, which involves “many” lines of code. Also the separation of the phases allowed me to move the actual construction of the presenter our of the actual test and into shared setup code.</p>
+<p>So what techniques did AAA mocking introduce to help alleviate the pains? First of all, the mocks no longer has states - that&#39;s what record and playback really refer to: A mock in record state will record calls made on it and then expect them to be called again during the playback state. Furthermore, it cleanly separates mock setup from mock expectations.</p>
+<h2>What is gained?</h2>
+<p>So what did we gain with AAA style mocking over the traditional record / playback style? </p>
+<ul>
+<li>The main selling point for me is readability and test simplicity - it is much easier for me to explain mocking to someone else with AAA. </li>
+<li>If you have done any fairly advanced record / playback mocking, you will find that when the mocks have states, it will often result in subtle test failures.</li>
+<li>Clean separation of test phases.</li>
+<li>Greatly improved ability to move shared code out of tests. Since you have the first part of your test handling setup, extending this part to start before the actual test (in a setup method) is no problem. With record / playback mocking, you will often run into state failures if you attempt it.</li>
+</ul>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

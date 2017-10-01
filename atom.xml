@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[rasmuskl]]></title>
+  <link href="http://rasmuskl.dk/atom.xml" rel="self"/>
+  <link href="http://rasmuskl.dk"/>
+  <updated>2015-11-13T09:30:25.484Z</updated>
+  <id>http://rasmuskl.dk/</id>
+  <author>
+    <name><![CDATA[Rasmus Kromann-Larsen]]></name>
+    <email><![CDATA[rasmus@kromann-larsen.dk]]></email>
+  </author>
+  <generator uri="http://zespia.tw/hexo">Hexo</generator>
+  <entry>
+    <title type="html"><![CDATA[Test Cloud Presentation at Mjølner event]]></title>
+    <link href="http://rasmuskl.dk/2015/11/13/mjolner-test-cloud-presentation/"/>
+    <id>http://rasmuskl.dk/2015/11/13/mjolner-test-cloud-presentation/</id>
+    <published>2015-11-13T09:21:30.000Z</published>
+    <updated>2015-11-13T09:29:19.741Z</updated>
+    <content type="html"><![CDATA[<p>Mjølner was kind enough to invite Karl Krukow and me along with our evangelist Mike James to come and talk at their Xamarin seminar.</p>
+<p>They have posted a blog post about the event <a href="http://mjolner.dk/events/xamarin-videos-how-to-build-and-test-apps-with-xamarin/" target="_blank">here</a>.</p>
+<p>The talk that me and Karl did was a rehash of our <a href="/2015/06/18/xamarin-evolve-presentation/">Evolve 2014 talk</a> from last year.</p>
+<p>The presentation was recorded and is available on YouTube:</p>
+<div class="video-container"><iframe src="//www.youtube.com/embed/ptDPg-W4xxY" frameborder="0" allowfullscreen></iframe></div>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Xamarin/" term="Xamarin"/>
+    <category scheme="http://rasmuskl.dk/tags/Presentations/" term="Presentations"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[What is Xamarin.UITest?]]></title>
+    <link href="http://rasmuskl.dk/2015/10/31/what-is-xamarin-uitest/"/>
+    <id>http://rasmuskl.dk/2015/10/31/what-is-xamarin-uitest/</id>
+    <published>2015-10-31T15:42:42.000Z</published>
+    <updated>2015-11-13T09:25:27.826Z</updated>
+    <content type="html"><![CDATA[<p>One of the projects I have been working on at Xamarin is leading development on our C# test framework Xamarin.UITest.</p>
+<p>I recently wrote a guest post over on the Xamarin blog about some of the background and design that went into creating the framework.</p>
+<p>You can find the post <a href="https://blog.xamarin.com/what-is-xamarin-uitest/" target="_blank">here</a>.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Xamarin/" term="Xamarin"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Presentation at Xamarin Evolve 2014]]></title>
+    <link href="http://rasmuskl.dk/2015/06/18/xamarin-evolve-presentation/"/>
+    <id>http://rasmuskl.dk/2015/06/18/xamarin-evolve-presentation/</id>
+    <published>2015-06-18T14:52:24.000Z</published>
+    <updated>2015-10-31T16:13:10.352Z</updated>
+    <content type="html"><![CDATA[<p>As part of my work for Xamarin, I was lucky enough to get the chance to present at the main stage at Xamarin Evolve last year with Karl Krukow.</p>
+<p>Our talk was about mobile testing with <a href="http://xamarin.com/test-cloud" target="_blank">Xamarin Test Cloud</a> and my part specifically was about the test framework I have been working on: <a href="http://developer.xamarin.com/guides/testcloud/uitest/" target="_blank">Xamarin.UITest</a></p>
+<p>The presentation is available on YouTube - my part starts at around 21:30. Also there is our neat demo with live streaming from one of the actual Test Cloud labs at around 57:00.</p>
+<div class="video-container"><iframe src="//www.youtube.com/embed/PQMBCoVIABI" frameborder="0" allowfullscreen></iframe></div>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Xamarin/" term="Xamarin"/>
+    <category scheme="http://rasmuskl.dk/tags/Presentations/" term="Presentations"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Env Reboot Diaries - The First Day]]></title>
+    <link href="http://rasmuskl.dk/2013/09/30/env-reboot-diaries-the-first-day/"/>
+    <id>http://rasmuskl.dk/2013/09/30/env-reboot-diaries-the-first-day/</id>
+    <published>2013-09-30T19:25:23.000Z</published>
+    <updated>2015-10-31T16:13:10.350Z</updated>
+    <content type="html"><![CDATA[<p>Today was the first day of my new job. I‘ve always been a Windows user except for when using university computers - and my professional career has mainly consisted of .NET C# development. My new job is in a polyglot environment, the main language is Ruby - but there’s also CoffeeScript and Clojure. I&#39;ll also be doing it on a Macbook Pro instead of my usual Windows machine. I thought it would be interesting to capture some of the thoughts as I go through learning a new OS and a new development stack.</p>
+<h2>The Macbook Pro</h2>
+<p>I spent most of the day setting up my temporary machine and doing some research for the first feature I‘m assisting on. I was curious about how I’d like the Macbook Pro. I haven‘t had much luck with Apple products in the past. I’ve owned both an iPhone and an iPad and ended up selling both, usually due being annoyed with too few configuration options. Regarding the Macbook Pro, I think I might survive it. It‘s a nice piece of hardware, to be sure. I like the crisp display and the feel of both keyboard and trackpad are very good. The keyboard layout (Danish) will definitely take some getting used to, but I’m hoping it won&#39;t be much worse than learning <code>fn</code> key combinations on any other new laptop these days.</p>
+<p>Likes so far:</p>
+<ul>
+<li>The virtual screens and navigating options are pleasant to work with. I&#39;ve actually just been working on the Macbook without an external screen today. </li>
+<li>The terminal. Tab completion etc seems more natural than both <code>cmd</code> and PowerShell. Will have to look at term replacements though, obviously.</li>
+<li>Stronger package management. I&#39;ve been using <code>homebrew</code> and <code>homebrew-cask</code> to install stuff. Installing Spotify with <code>homebrew cask install spotify</code> is a winner in my book. This has improved a bit on the Windows side of things with <a href="http://chocolatey.org/" target="_blank">Chocolatey</a> though.</li>
+</ul>
+<p>Dislikes so far:</p>
+<ul>
+<li>Having to enter my credit card information to install free apps from AppStore.</li>
+<li>Also having to choose 3 security questions to install free apps - with crappy choices.</li>
+<li>I‘m not too keen on the dock yet either. But maybe it’ll grow on me.</li>
+</ul>
+<h2>Text Editor vs IDE</h2>
+<p>I‘ve been addicted to perfecting IDE use for quite some time. Give me Visual Studio and ReSharper and I’ll slice and dice C# code with my hands behind my back. Tools like ReSharper are huge boosters - not just for writing code, but also for molding existing code into new shapes and even more importantly, for navigating, reading and understanding code. And while I am a huge fan - I‘ve also come to realize that these tools sometimes become a prison. Introducing new technology that depends on some new file type into the Microsoft world more or less requires Visual Studio integration. In my experience, developers will be very reluctant to adopt it (myself included), if it doesn’t have Intellisense for instance.</p>
+<p>So while I‘ve considered starting out with Jetbrains’ RubyMine, I‘ve decided to try a text editor instead - at least for now. I actually thought I was going to pick Sublime Text, but in the end I decided to give vim a try. I’ve run through <code>vimtutor</code> tonight and plan to do it again tomorrow - and got a basic <code>.vimrc</code> config up and running. For now, I&#39;m going to try and keep the number of plugins down - but have install <a href="https://github.com/gmarik/vundle" target="_blank">Vundle</a> for managing plugins, the <a href="https://github.com/altercation/vim-colors-solarized" target="_blank">solarized</a> theme and <a href="https://github.com/bling/vim-airline" target="_blank">vim-airline</a> as an improved status bar.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/EnvReboot/" term="EnvReboot"/>
+    <category scheme="http://rasmuskl.dk/tags/Vim/" term="Vim"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[My Git + PowerShell setup for .NET development]]></title>
+    <link href="http://rasmuskl.dk/2013/09/23/git-powershell-setup/"/>
+    <id>http://rasmuskl.dk/2013/09/23/git-powershell-setup/</id>
+    <published>2013-09-23T21:16:51.000Z</published>
+    <updated>2015-10-31T16:13:10.348Z</updated>
+    <content type="html"><![CDATA[<img src="/post-images/git.png" class="right">
+
+
+<p>I‘ve been using git for a couple of years and thought I would document my setup. Git’s linux heritage shows and while it‘s not many tools that I use via a shell, it’s actually a real breeze. So I&#39;ve mainly been using it through PowerShell.</p>
+<h2>Git</h2>
+<p>I run the plain <a href="http://msysgit.github.io/" target="_blank">Git for Windows</a> installation.</p>
+<p>My only comment for the installation is that I usually choose the option (not default) to use checkout-as-is, commit-as-is for line endings. I mainly work with .NET projects and prefer to keep my Windows line endings in the repository to avoid any problems.</p>
+<h3>.gitattributes</h3>
+<p>The line endings configuration can give problems in a mixed team - and recently I&#39;ve been using a <code>.gitattributes</code> file in the root of my repositories with the following content:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="comment">*</span> <span class="literal">-</span><span class="comment">text
+</pre></td></tr></table></figure>
+
+<p>This will instruct git to not mess with any line endings in the repository across the team, regardless of the installation options, which is nice as long as you don&#39;t have a mix of platforms.</p>
+<h3>.gitignore</h3>
+<p>I usually build my <code>.gitignore</code> file as needed - I always do <code>git status</code> before committing, so it&#39;s been quite a while since something has slipped by. My minimal <code>.gitignore</code> will usually look something like this:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="title">bin</span>
+obj
+<span class="regexp">*.csproj.user</span>
+<span class="regexp">*.suo</span>
+packages
+</pre></td></tr></table></figure>
+
+<p>Generally I prefer to use NuGet for all possible dependencies and avoid checking the binary files in to keep the overall repository size down.</p>
+<h3>posh-git</h3>
+<p>I use posh-git to get a bit of contextual information about my repository and some nice tab completion.</p>
+<img src="/wp-content/uploads/2013-09-23-20_29_45-poshgit-test-project-master.png">
+
+
+<p>posh-git is rather simple to install by following the instructions in the main <a href="https://github.com/dahlbyk/posh-git" target="_blank">repository</a>.</p>
+<h3>gitk</h3>
+<p>Working in a shell environment is fine for many of the every day operations, sometimes a bit of GUI can be nice to get an overview. Git includes <code>gitk</code> which while a bit basic usually works just fine. I usually launch it with <code>gitk --all</code> to see all branches.</p>
+<img src="/wp-content/uploads/2013-09-23-21_27_26-gitk_-alphalaunch.png">
+
+
+<p>If you want a more advanced GUI for Git, you can either download <a href="http://www.sourcetreeapp.com/" target="_blank">SourceTree</a> from Atlassian or <a href="http://windows.github.com/" target="_blank">GitHub for Windows</a>.</p>
+<h2>PowerShell</h2>
+<p>My PowerShell setup mainly consists of my profile, which is loaded when PowerShell starts. On my system it&#39;s found under:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>C:<span class="command">\Users</span><span class="command">\Rasmus</span><span class="command">\Documents</span><span class="command">\WindowsPowerShell</span><span class="command">\Microsoft</span>.PowerShell_profile.ps1
+</pre></td></tr></table></figure>
+
+<p>You can however access it through PowerShell using <code>$PROFILE</code> variable. So you can easily edit it with:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="title">notepad</span> <span class="variable">$PROFILE</span>
+</pre></td></tr></table></figure>
+
+<p>After you‘ve made changes to your profile, you’ll have to reload it into the current PowerShell session with:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>. <span class="variable">$PROFILE</span>
+</pre></td></tr></table></figure>
+
+<p>My full PowerShell profile is available in this <a href="https://gist.github.com/rasmuskl/3786798" target="_blank">gist</a>.</p>
+<h3>General purpose aliases</h3>
+<p>I have two aliases set up that I use often, but are not entirely Git related. First off I have <code>np</code>:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>set-alias -name np -value "C:<span class="command">\Program</span> Files<span class="command">\Sublime</span> Text 3<span class="command">\sublime</span>_text.exe"
+</pre></td></tr></table></figure>
+
+<p>This is just always set up to open my current text editor whenever it&#39;s <a href="http://www.sublimetext.com/" target="_blank">Sublime Text</a> or <a href="http://notepad-plus-plus.org/" target="_blank">Notepad++</a> and used to do quick edits.</p>
+<p>My other alias is <code>vsh</code>, which is just short for “Visual Studio here”. What it‘ll do is to search recursively from the current folder and open the first solution it encounters. It’ll give you a quick standard way to open your solution from the root of a repository where you generally want your shell most of the time anyway.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">vsh</span><span class="params">()</span> {</span>
+  Write-Output <span class="string">"Opening first solution..."</span>
+    <span class="variable">$sln</span> = (dir -in *.sln -r | Select -first <span class="number">1</span>)
+    Write-Output <span class="string">"Found $($sln.FullName)"</span>
+    Invoke-Item <span class="variable">$sln</span>.FullName
+}
+</pre></td></tr></table></figure>
+
+<img src="/wp-content/uploads/2013-09-23-21_06_03-poshgit-alphalaunch-master.png">
+
+
+<h3>Git aliases</h3>
+<p>I have two main aliases for interacting with Git, namely <code>ga</code> and <code>gco</code>.</p>
+<p>My alias for adding everything to the staging area is <code>ga</code>. For a long time I&#39;d use <code>git add .</code> usually and then <code>git add -A</code> whenever I also had deletes - but I&#39;m happy with <code>ga</code> now. As a bonus it also does a <code>git status</code> so I‘m forced to review what the heck I’m doing.</p>
+<figure class="highlight lang-powershell"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">ga</span><span class="params">()</span> {</span>
+  Write-Output <span class="string">"Staging all changes..."</span>
+    git add -A
+    git status
+}
+</pre></td></tr></table></figure>
+
+<p>After staging files I have to commit obviously. I got a bit annoyed with typing <code>git add -m &quot;blah&quot;</code> all the time and came up with <code>gco</code>. Besides being shorter, it has 2 little twists:</p>
+<ul>
+<li>If you add <code>-a</code> or <code>-amend</code> it&#39;ll do a <code>git commit --amend</code> for overwriting the last commit. Useful for fixing typoes or unsaved files that didn&#39;t make it into the commit.</li>
+<li>Under most circumstances you can leave out the surrounding quotes and it&#39;ll work just fine. So you can write <code>gco message</code> instead of <code>gco &quot;message&quot;</code>. If you&#39;re using special chars like apostrophes in your messages however, you still have to add the quotes.</li>
+</ul>
+<figure class="highlight lang-powershell"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">gco</span><span class="params">()</span> {</span>
+  param([<span class="keyword">switch</span>]<span class="variable">$amend</span>, [<span class="keyword">switch</span>]<span class="variable">$a</span>)
+
+    <span class="variable">$argstr</span> = <span class="variable">$args</span> -join <span class="string">' '</span>
+    <span class="variable">$message</span> = <span class="string">'"'</span>, <span class="variable">$argstr</span>, <span class="string">'"'</span> -join <span class="string">''</span>
+
+    <span class="keyword">if</span> (<span class="variable">$amend</span> -<span class="keyword">or</span> <span class="variable">$a</span>) {
+      Write-Output <span class="string">"Amending previous commit with message: $message"</span>
+        git commit -m <span class="variable">$message</span> --amend
+    } <span class="keyword">else</span> {
+      Write-Output <span class="string">"Committing with message: $args"</span>
+        git commit -m <span class="variable">$message</span>
+    }
+}
+</pre></td></tr></table></figure>
+
+<p>I also have a <code>gca</code> alias, which is basically <code>gco -a</code> - but I don&#39;t use it often. You can grab it from the <a href="https://gist.github.com/rasmuskl/3786798" target="_blank">profile gist</a>.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Git/" term="Git"/>
+    <category scheme="http://rasmuskl.dk/tags/PowerShell/" term="PowerShell"/>
+    <category scheme="http://rasmuskl.dk/tags/Tips/" term="Tips"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Joining Xamarin]]></title>
+    <link href="http://rasmuskl.dk/2013/08/14/joining-xamarin/"/>
+    <id>http://rasmuskl.dk/2013/08/14/joining-xamarin/</id>
+    <published>2013-08-14T07:18:41.000Z</published>
+    <updated>2015-10-31T16:13:10.345Z</updated>
+    <content type="html"><![CDATA[<img src="/wp-content/uploads/xamarin-logo-200.png" class="right">
+
+
+<p>After some 3 years working as an independent consultant I‘m excited to announce that I’m joining <a href="http://www.xamarin.com" target="_blank">Xamarin</a> in October. Working as a consultant has brought me many interesting experiences and may do so again some day, but for some time I‘ve been looking for a company with the right profile to join. I’ve mainly been looking for a highly skilled team building exciting stuff without too much corporate overhead, with a great vision, where I could really make an impact. Xamarin seems to fit the bill perfectly.</p>
+<h2>Xamarin Test Cloud</h2>
+<p>More specifically, I will be joining the Xamarin team in Århus responsible for the <a href="http://xamarin.com/test-cloud" target="_blank">Xamarin Test Cloud</a> - a cloud platform for BDD-style UI automation testing Android and iOS apps on actual physical devices without having to deal with the devices yourself. The mobile device market has crazy fragmentation due to the number of OS versions, screen sizes, customizations and just sheer number of different models. <a href="http://www.nat.org/" target="_blank">Nat Friedman</a> (Xamarin CEO) gave a nice overview of the problem in the Xamarin Evolve 2013 keynote this year (<a href="http://xamarin.com/evolve/2013#keynote-72:12" target="_blank">video: The State of Mobile Testing</a>) and also proceeded to give an overview to the Xamarin Test Cloud (<a href="http://xamarin.com/evolve/2013#keynote-80:44" target="_blank">video: Xamarin Test Cloud</a>).</p>
+<h2>New challenges</h2>
+<p>First of all since I‘m joining the Xamarin team in Århus and I live in Copenhagen, I will be spending quite a bit more time riding trains back and forth. It’s important to be a part of the team and I&#39;ve also planned to read up on tips for optimizing remote work - <a href="http://www.hanselman.com/" target="_blank">Scott Hanselman</a> comes to mind, especially his tips on <a href="http://www.hanselman.com/blog/VirtualCamaraderieAPersistentVideoPortalForTheRemoteWorker.aspx" target="_blank">video portals</a>.</p>
+<p>I&#39;m currently investigating possible office spaces in Copenhagen for my remote work - suggestions are very welcome.</p>
+<p>Besides working remotely my new main programming environment will no longer be .NET and C# in Visual Studio, but rather Ruby in some yet undecided editor on a Mac. It&#39;s always refreshing to try something new! But while I‘ll be writing Ruby, Xamarin does have a heavy investment in C#, so I’m sure my C# knowledge will come in handy anyway.</p>
+<p>Exciting times.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Career/" term="Career"/>
+    <category scheme="http://rasmuskl.dk/tags/Xamarin/" term="Xamarin"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Releasing my ReSharper Course Material]]></title>
+    <link href="http://rasmuskl.dk/2013/06/13/releasing-my-resharper-course-material/"/>
+    <id>http://rasmuskl.dk/2013/06/13/releasing-my-resharper-course-material/</id>
+    <published>2013-06-13T16:09:00.000Z</published>
+    <updated>2015-10-31T16:13:10.343Z</updated>
+    <content type="html"><![CDATA[<img src="/wp-content/uploads/resharper.jpg" class="right">
+
+
+<p>I&#39;ve decided to release my ReSharper course material under the <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">Creative Commons Attribution 3.0 license</a>.</p>
+<p>The material can be found at on <a href="http://github.com/rasmuskl/ReSharperCourse" target="_blank">GitHub</a>.</p>
+<p>A short description of the course can be found in the git repository README (pasted below).</p>
+<p>The precompiled exercises-PDF can be downloaded <a href="https://github.com/rasmuskl/ReSharperCourse/raw/master/Source/ReSharper%20Exercises.pdf" target="_blank">here on GitHub</a>.</p>
+<h1>Introduction</h1>
+<p>This is my basic <a href="http://www.jetbrains.com/resharper/" target="_blank">ReSharper</a> course material developed in 2012 - based on ReSharper 6.1, although a lot of the material is still relevant. </p>
+<p>It should provide enough content for 4 to 6 hours of entertainment. The course focuses on progressivly harder exercises and hands-on experience over a lot of talk.</p>
+<p>Exercises are generated through the ASP.NET MVC site found in <code>Source/CourseTasks</code>.</p>
+<h1>Topics</h1>
+<ul>
+<li>Why use ReSharper?</li>
+<li>Navigation </li>
+<li>Code Interaction</li>
+<li>Code Analysis</li>
+<li>Code Generation</li>
+<li>Refactoring</li>
+<li>Completion modes</li>
+<li>Refactoring combos</li>
+<li>Usage Inspection</li>
+<li>Solution Refactorings</li>
+<li>Move Code</li>
+<li>Navigating Hierarchies</li>
+<li>Inspect This</li>
+</ul>
+<h1>Licensing</h1>
+<p>Course material is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License.</p>
+<p>For source code found in the Source folder - please check individual projects for license information (Rebus and BlogEngine.NET).</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Courses/" term="Courses"/>
+    <category scheme="http://rasmuskl.dk/tags/Presentations/" term="Presentations"/>
+    <category scheme="http://rasmuskl.dk/tags/ReSharper/" term="ReSharper"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Microsoft DDC 2013 Reflections]]></title>
+    <link href="http://rasmuskl.dk/2013/04/27/microsoft-ddc-2013-reflections/"/>
+    <id>http://rasmuskl.dk/2013/04/27/microsoft-ddc-2013-reflections/</id>
+    <published>2013-04-27T12:07:47.000Z</published>
+    <updated>2015-10-31T16:13:10.341Z</updated>
+    <content type="html"><![CDATA[<p>A few weeks ago, I attended and spoke at this years Danish Developer Conference by Microsoft. The conference was run in both Horsens and Copenhagen and both venues were cinemas. I gave a talk with Mads Kristensen with the topic of Visual Studio productivity tips. Mads covered plain Visual Studio and I gave a whirlwind tour of what productivity with ReSharper could look like.</p>
+<h2>The venue</h2>
+<p>I loved both venues, MegaScope in Horsens and Cinemaxx in Copenhagen, presenting in a cinema is just amazing. Forget everything about presentation resolutions and just fire away - Cinemaxx&#39;s projectors were 4K (4096 x 2304px). Having 60+ m2 of screen estate makes everything much simpler. Combined with comfortable seats it was really enjoyable. We had an entire cinema as a Speakers Lounge as well.</p>
+<h2>My talk</h2>
+<p>As previously mentioned, I gave my ReSharper whirlwind tour. The talk has very few slides and focuses on giving a quick overview of the most basic features in ReSharper. If you are looking specifically for my ReSharper slides, I have some old presentation blog posts containing a richer set.</p>
+<p>I think it will be the last time that I am going to give my basic ReSharper talk, unless specifically requested - since I have given it quite a few times now. I might be tempted to create a more advanced ReSharper talk at some point though. Maybe I will actually speak about some C# related stuff next time.</p>
+<h2>Other talks</h2>
+<p>I was generally happy with all the talks I saw, but I want to recommend 2 talks specifically, if you happen to get a chance to see them at a user group or at another conference:</p>
+<h4>Advanced Unit Testing (Danish: Unit testing for viderekommende)</h4>
+<p><a href="http://blog.ploeh.dk/" target="_blank">Mark Seemann</a> is a very experienced speaker and a passionate proponent of automated tests. This talk gives an introduction to some of the patterns to avoid brittle tests, especially in regards to test object construction and equality. In many regards it reflects some of the painful experiences I have gone through over the years.</p>
+<h4>Bigger, Faster, Stronger: Optimizing ASP.NET 4 and 4.5 Applications</h4>
+<p><a href="http://madskristensen.net/" target="_blank">Mads Kristensen</a> has given this talk so many times but it is better every time and it touches on so many helpful things to optimize your web pipeline from the server to the client. The talk is based around the <a href="http://webdevchecklist.com/" target="_blank">Web Developer Checklist</a> - so if you can&#39;t see the talk live, at least take a look at the checklist.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Presentations/" term="Presentations"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Surviving no media keys on your new keyboard]]></title>
+    <link href="http://rasmuskl.dk/2013/03/19/surviving-no-media-keys-on-your-new-keyboard/"/>
+    <id>http://rasmuskl.dk/2013/03/19/surviving-no-media-keys-on-your-new-keyboard/</id>
+    <published>2013-03-19T18:41:42.000Z</published>
+    <updated>2015-10-31T16:13:10.339Z</updated>
+    <content type="html"><![CDATA[<p>I‘ve recently acquired a new keyboard, after using my trusty old Logitech for many years. I’ve come to rely on my media keys and the volume wheel for controlling Spotify or other apps. </p>
+<p>My solution is to use <a href="http://www.autohotkey.com" target="_blank">AutoHotKey</a> to bind the following combinations after a short conversation with <a href="http://www.improve.dk" target="_blank">Mark</a> (although we don&#39;t entirely agree on the layout):</p>
+<ul>
+<li>Win + Numpad 4 - Previous track</li>
+<li>Win + Numpad 5 - Play / pause</li>
+<li>Win + Numpad 6 - Next track</li>
+<li>Win + Numpad 8 - Volume up</li>
+<li>Win + Numpad 2 - Volume down</li>
+<li>Win + Numpad 7 - Mute</li>
+</ul>
+<p>Here&#39;s the script to add to AHK:</p>
+<figure class="highlight lang-autohotkey"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="preprocessor">#Numpad4::Send {Media_Prev}</span>
+<span class="preprocessor">#Numpad5::Send {Media_Play_Pause}</span>
+<span class="preprocessor">#Numpad6::Send {Media_Next}</span>
+<span class="preprocessor">#Numpad2::Send {Volume_Down}</span>
+<span class="preprocessor">#Numpad7::Send {Volume_Mute}</span>
+<span class="preprocessor">#Numpad8::Send {Volume_Up}</span>
+</pre></td></tr></table></figure>
+
+<p>… and on a final semi-unrelated note, I&#39;ll recommend my new mechanical keyboard - <a href="http://www.daskeyboard.com/model-s-ultimate-silent/" target="_blank">Das Keyboard S Ultimate Silent</a>. It‘s far from silent - but it’s an awesome keyboard. The keys have a very nice feel as you&#39;re typing along and the keyboard itself is rather heavy (almost 2kg) and thus stay completely in place when typing.</p>
+<img src="/post-images/mechanical_keyboard_hero.jpg" class="center">
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/AutoHotKey/" term="AutoHotKey"/>
+    <category scheme="http://rasmuskl.dk/tags/Tips/" term="Tips"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Not GOTOing]]></title>
+    <link href="http://rasmuskl.dk/2012/09/30/not-gotoing/"/>
+    <id>http://rasmuskl.dk/2012/09/30/not-gotoing/</id>
+    <published>2012-09-30T20:35:32.000Z</published>
+    <updated>2015-10-31T16:13:10.337Z</updated>
+    <content type="html"><![CDATA[<p>GOTO starts tomorrow. Unfortunately, I will not be attending anyway. I think it’ll be an great conference. I really hope to attend next year.</p>
+<p>Do yourself a favour and check out the blogs of some awesome danish devs: <a href="http://mookid.dk/oncode/" target="_blank">Mogens Heller Grabe</a>, <a href="http://blog.dotnetnerd.dk/" target="_blank">Christian Holm Nielsen</a>, <a href="http://blog.graffen.dk/" target="_blank">Jesper Hess Nielsen</a>, <a href="http://dalager.com/blog/" target="_blank">Christian Dalager</a> and <a href="http://bypassion.dk/" target="_blank">Rasmus Tolstrup Christensen</a>.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/GOTO/" term="GOTO"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Setting up Web Deploy 3.0 / MSDeploy]]></title>
+    <link href="http://rasmuskl.dk/2012/09/27/setting-up-web-deploy-30-msdeploy/"/>
+    <id>http://rasmuskl.dk/2012/09/27/setting-up-web-deploy-30-msdeploy/</id>
+    <published>2012-09-27T19:38:22.000Z</published>
+    <updated>2015-10-31T16:13:10.335Z</updated>
+    <content type="html"><![CDATA[<p>I’m currently on the path of converting one of my sites from SFTP deployments to using <a href="http://www.iis.net/downloads/microsoft/web-deploy" target="_blank">Web Deploy 3.0</a> and thought it might be interesting to document the process and the pitfalls that I run into. My approach is roughly based on <a href="http://www.iis.net/learn/publish/using-web-deploy/configure-the-web-deployment-handler" target="_blank">this guide</a>, but it wasn’t a complete fit for me, so here we go.</p>
+<h2>Motivation</h2>
+<p>So why would you want to use Web Deploy for deploying web sites? Compared to regular file copy or FTP deployments, Web Deploy offers the option of running a dedicated deployment service on your server, that is actually aware of IIS and can help you make your deployments as smooth as possible. In my case, my SFTP service had started to lock random assemblies recently, and since I’d been wanting upgrade to Web Deploy anyway, I thought now might be as good a time as any.</p>
+<p>Web Deploy can do a bunch of things for you, such as syncing IIS sites (6, 7 and 8), deploying packages, archiving sites by offering a multitude of different providers. This post is dedicated to deploying a rather simple site that is already bin deployable.</p>
+<h2>My setup</h2>
+<p>My setup is a remote server running Windows Server 2008 R2 with IIS 7.5 and a development environment on a Windows 7 Ultimate machine. </p>
+<p>The site is an ASP.NET 4.0 mixed WebForms / MVC project. The application itself manages database migrations, so they’re not in scope for the post either.</p>
+<h2>Setup steps</h2>
+<p>1 - Created a dedicated deployment user for use with deployment. It’s nice to know that everything is locked down, when you open up remote access.</p>
+<p>2 - Installed Management Service role for my IIS in Server Manager.</p>
+<img src="/post-images/image_thumb_10.png">
+
+
+<p>3 - Changed Web Management Service to Start automatically (delayed) and specified a specific deployment user.</p>
+<img src="/post-images/4_thumb.png">
+
+
+<p>4 - Configured Management Service within IIS.</p>
+<img src="/post-images/1_thumb.png">
+
+
+<p>Like this:</p>
+<img src="/post-images/2_thumb.png">
+
+
+<p>5 - Created a new site in IIS. Gave the deployment user access to the site folder on the web server. </p>
+<p>6 - Gave the deployment user access to the site through IIS Manager Permissions.</p>
+<img src="/post-images/5_thumb.png">
+
+
+<p>7 - Installed Web Deploy 3.0 including IIS Deployment Handler (wasn’t visible in the first custom install). Not using Platform installer. The IIS Deployment handler install option was not visible the first time I tried, because I hadn’t installed the Management Service in IIS.</p>
+<img src="/post-images/16_thumb.png">
+
+
+<p>8 - The guide told me to add rules, but rules already existed in Management Service Delegation.</p>
+<img src="/post-images/15-out-of-order_thumb.png">
+
+
+<p>(Already existing rules:)</p>
+<img src="/post-images/7_thumb.png">
+
+
+<p>9 - Installed IIS on my local machine. Was rather freshly paved, so I hadn’t yet. I’m guessing most of you can skip this step.</p>
+<p>10 - Wasn’t able to ‘Connect to Site’ as mentioned in test guide – so I installed IIS Manager for Remote Administration v1.1 using Web Platform Installer.</p>
+<img src="/post-images/9_thumb.png">
+
+
+<p>11 - Connected to the Site.</p>
+<img src="/post-images/10_thumb.png">
+
+
+<p>12 - Selected the site.</p>
+<img src="/post-images/11_thumb.png">
+
+
+<p>13 - … aaaaand imported my application package that I’d created through Visual Studio.</p>
+<img src="/post-images/13_thumb.png">
+
+
+<p>14 - Profit!</p>
+<img src="/post-images/14_thumb.png">
+
+
+<h2>Conclusion</h2>
+<p>Now this is a rather crude picture guide. But hopefully it’ll still be useful to some people. I know I’ll check it next time I’m setting up Web Deploy.</p>
+<p>My next goals are to adapt my rake scripts for the application to create the package on my TeamCity server and add one-click deployments directly from TeamCity.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Continuous Integration/" term="Continuous Integration"/>
+    <category scheme="http://rasmuskl.dk/tags/MSDeploy/" term="MSDeploy"/>
+    <category scheme="http://rasmuskl.dk/tags/Web Deploy/" term="Web Deploy"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[GOTOing this year!]]></title>
+    <link href="http://rasmuskl.dk/2012/08/31/gotoing-this-year/"/>
+    <id>http://rasmuskl.dk/2012/08/31/gotoing-this-year/</id>
+    <published>2012-08-31T17:43:00.000Z</published>
+    <updated>2015-10-31T16:13:10.334Z</updated>
+    <content type="html"><![CDATA[<p>I&#39;m happy to announce that I will be going to <a href="http://gotocon.com/aarhus-2012/" target="_blank">GOTO 2012 Aarhus</a> in October. <a href="http://www.trifork.com/" target="_blank">Trifork</a> invited me as a blogger, and as such I will be writing blog posts before, under and after the conference. Even though the invitation includes a free ticket, you can rest assured that my future posts about GOTO will contain only my opinion expressed in my words.</p>
+<p>The agenda for the conference has been posted and while there&#39;s no dedicated .NET track, the speaker list does include <a href="http://gotocon.com/aarhus-2012/speaker/Anders+Hejlsberg" target="_blank">Anders Hejlsberg</a> and <a href="http://gotocon.com/aarhus-2012/speaker/Scott+Hanselman" target="_blank">Scott Hanselman</a>. I&#39;m also looking forward to seeing <a href="http://gotocon.com/aarhus-2012/speaker/Dan+North" target="_blank">Dan North</a> speak again, I was really sold on his talks last year at Öredev. Track-wise I‘m definitely going to attend talks in Continuous Delivery, JavaScript, Languages, Hard things made easy and It’s about the people, stupid.</p>
+<p>I would have loved a bit more functional programming in the conference program, especially with my new found interest in Clojure. But I guess you can&#39;t have it all.</p>
+<p>I‘m still considering my approach to blogging about the conference. My main style on this blog is usually informational and rather technical, but I wouldn’t mind dipping into some of the more people / project centric problems / discussions of our industry. One of the benefits of being a independent consultant is that you see so many different places - so I have developed quite a bit of &quot;<em>You&#39;re doing it wrong!</em>&quot; opinions over the years.</p>
+<p>Hope to see you at the conference!</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/GOTO/" term="GOTO"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[MOW2012: Exploring C# DSLs: LINQ, Fluent Interfaces and Expression Trees]]></title>
+    <link href="http://rasmuskl.dk/2012/04/19/mow2012-exploring-c-dsls-linq-fluent-interfaces-and-expression-trees/"/>
+    <id>http://rasmuskl.dk/2012/04/19/mow2012-exploring-c-dsls-linq-fluent-interfaces-and-expression-trees/</id>
+    <published>2012-04-19T15:41:00.000Z</published>
+    <updated>2015-10-31T16:13:10.332Z</updated>
+    <content type="html"><![CDATA[<p>I gave my Exploring C# DSLs: LINQ, Fluent Interfaces and Expression Trees talk today at <a href="http://mow2012.dk" target="_blank">Miracle Open World 2012</a> about C# Domain Specific Languages.</p>
+<p>The slides are now available <a href="http://www.slideshare.net/rasmuskl/exploring-c-dsls-linq" target="_blank">here</a>.</p>
+<p>… and the demo source is available as a git repository on bitbucket <a href="http://bitbucket.org/rasmuskl/mow2012dsltalk/" target="_blank">here</a>.</p>
+<p>Note that some of the source is just mocked implementation, the goal was not really to show production level quality - but rather concepts. The quality of the few tests and commit messages reflect this.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Presentations/" term="Presentations"/>
+    <category scheme="http://rasmuskl.dk/tags/DSL/" term="DSL"/>
+    <category scheme="http://rasmuskl.dk/tags/Miracle Open World/" term="Miracle Open World"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Converting a Mercurial repository to Git (Windows)]]></title>
+    <link href="http://rasmuskl.dk/2012/03/12/converting-a-mercurial-repository-to-git-windows/"/>
+    <id>http://rasmuskl.dk/2012/03/12/converting-a-mercurial-repository-to-git-windows/</id>
+    <published>2012-03-12T21:43:09.000Z</published>
+    <updated>2015-10-31T16:13:10.329Z</updated>
+    <content type="html"><![CDATA[<p>After going through the pain of (re-)discovering how to convert a Mercurial repository into a Git repository on Windows, I thought I’d share how easy it really is. I’ve bounced back and forth between Mercurial and Git a few times – my current preference is Git, mainly because I like Git’s branching strategy a bit better – but really, they’re both excellent choices. I still find the best analogy for comparing them is that <a href="http://importantshock.wordpress.com/2008/08/07/git-vs-mercurial/" target="_blank">Git is MacGyver and Mercurial is James Bond</a>.</p>
+<p>You can find quite a few <a href="http://arr.gr/blog/2011/10/bitbucket-converting-hg-repositories-to-git/" target="_blank">posts</a> <a href="http://candidcode.com/2010/01/12/a-guide-to-converting-from-mercurial-hg-to-git-on-a-windows-client/" target="_blank">describing</a> how to convert – but many of the steps mentioned in those guides are not needed if you have <a href="http://tortoisehg.bitbucket.org/" target="_blank">TortoiseHg</a> installed, which most Windows Mercurial users do.</p>
+<h2>Prerequisites</h2>
+<p>As I already mentioned, this guide expects that you have <a href="http://tortoisehg.bitbucket.org/" target="_blank">TortoiseHg</a> installed on your system. </p>
+<p>For the actual conversion, we’re going to be using a Mercurial extension called <a href="https://github.com/schacon/hg-git" target="_blank">hggit</a> that enables Mercurial to push and pull from Git repositories. You can either clone the <a href="https://github.com/schacon/hg-git" target="_blank">hggit</a> repository on GitHub or grab a zipped version <a href="https://github.com/schacon/hg-git/downloads" target="_blank">here</a>.</p>
+<p>What we need is the <strong>hggit</strong> folder from the clone or zip file – put this some place handy and remember the path.</p>
+<h2>Preparing the Git repository</h2>
+<p>In this guide we’re going to be pushing our repository to a local Git repository – so let’s create a bare repository – this way you’ll avoid Git complains about <a href="http://gitready.com/advanced/2009/02/01/push-to-only-bare-repositories.html" target="_blank">pushing to a non-bare repository</a>.</p>
+<p>Open a command prompt, create a directory for the new repository and from within the directory execute: <code>git init –bare</code></p>
+<p>That’s it – our Git repository is ready. Alternatively you could push directly to a Git repository on either <a href="http://www.github.com" target="_blank">GitHub</a>, <a href="http://www.bitbucket.org" target="_blank">Bitbucket</a> or other provider.</p>
+<h2>Enabling hggit in Mercurial</h2>
+<p>Now we need to let Mercurial know about the hggit extension. This is done by adding it to the <strong>.hgrc</strong> or <strong>mercurial.ini</strong> file in your home directory (for me that’d be <strong>c:\users\rasmuskl\mercurial.ini</strong>). </p>
+<p>In the config file, find the <strong>[extensions]</strong> section – or add it at bottom if it’s not already there. Then add a reference to the hggit extension followed by the path of the hggit folder:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>hggit = c:<span class="command">\path</span><span class="command">\to</span><span class="command">\hggit</span>
+</pre></td></tr></table></figure>
+
+<h2>Converting the repository</h2>
+<p>To convert the repository, simply open your command prompt, navigate to your Mercurial repository and do: <code>hg push c:\path\to\bare\git\repository</code></p>
+<p>And you’re done. You can now either clone the bare repository to a working directory – or push it to your GitHub or Bitbucket account.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Source Control/" term="Source Control"/>
+    <category scheme="http://rasmuskl.dk/tags/Git/" term="Git"/>
+    <category scheme="http://rasmuskl.dk/tags/Mercurial/" term="Mercurial"/>
+    <category scheme="http://rasmuskl.dk/tags/Tips/" term="Tips"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Tips for decluttering Visual Studio 2010]]></title>
+    <link href="http://rasmuskl.dk/2012/02/28/decluttering-visual-studio-2010/"/>
+    <id>http://rasmuskl.dk/2012/02/28/decluttering-visual-studio-2010/</id>
+    <published>2012-02-28T15:19:34.000Z</published>
+    <updated>2015-10-31T16:13:10.326Z</updated>
+    <content type="html"><![CDATA[<p><a href="http://mookid.dk/oncode/" target="_blank">Mogens Heller Grabe</a> wrote a <a href="http://mookid.dk/oncode/archives/2725" target="_blank">nice post</a> about reducing the amount of clutter in your Visual Studio the other day – and I thought I’d chime in with a few tips.</p>
+<h2>Hiding the Navigation bar</h2>
+<p>First up we have the navigation bar – which is taking up a line of your precious screen estate.</p>
+<img src="/post-images/image_thumb_2.png">
+
+
+<p>To remove it, jump to:</p>
+<p>Tools –&gt; Options –&gt; Text Editor –&gt; All Languages</p>
+<p>Uncheck ‘Navigation bar’. For extra bonus points, check ‘Line numbers’.</p>
+<h2>Bringing back the Configuration Manager</h2>
+<p>The following tip I got from <a href="http://www.rwj.dk/" target="_blank">Rasmus Wulff Jensen</a> when I mentioned that the only thing I really like from the standard Visual Studio toolbars is the ‘Configuration Manager’ drop down that allows me to switch between Debug and Release builds. He showed me a neat trick to put it in the top toolbar.</p>
+<p>Right click on the tool bar to bring up the tool bar selection. </p>
+<img src="/post-images/image_thumb_3.png">
+
+
+<p>Choose ‘Customize’. Change the tab to ‘Commands’ and move focus to the bottom of the list, like so:</p>
+<img src="/post-images/image_thumb_4.png">
+
+
+<p>The hit the ‘Add Command’ button and go to the ‘Build’ category. Scrolling to the bottom, you will find a command labeled ‘Solution Configurations’. Pick it.</p>
+<img src="/post-images/image_thumb_5.png">
+
+
+<p>You now have an inline configuration manager on your top toolbar without taking up extra space. Same trick can be applied to any other commands.</p>
+<img src="/post-images/image_thumb_6.png">
+
+
+<h2>Docking the Find dialog box</h2>
+<p>The ‘Find and Replace’ dialog is probably one of the most used dialogs in Visual Studio – however with the default settings, you get a floating dialog that doesn’t seem to want to go away after you’re done using it.</p>
+<img src="/post-images/image_thumb_7.png">
+
+
+<p>If you dock it – like so:</p>
+<img src="/post-images/image_thumb_8.png">
+
+
+<p>… and unpin it, it will behave nicely and disappear when you’re done searching or press ESC.</p>
+<h2>Switch to a dark theme</h2>
+<p>This is more a matter of taste. Personally I’ve been using dark themes for Visual Studio forever. My eyes feel way more relaxed after a day of using a dark theme. My theory is that since computer monitors use <a href="http://en.wikipedia.org/wiki/Additive_color" target="_blank">additive colors</a> (with white being a full blast mix of red, green and blue and black being no light), a dark theme simply emits way less light.</p>
+<img src="/post-images/image_thumb_9.png">
+
+
+<p>If you want, you can download my personal theme <a href="/files/RKL-blue-theme-vs2010-2012-02-28.zip">here</a> (ReSharper specific). It’s the same as I’ve previously posted, except I’ve adjusted it to work properly with Razor views too.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Visual Studio/" term="Visual Studio"/>
+    <category scheme="http://rasmuskl.dk/tags/Tips/" term="Tips"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Peer Reviews - Why bother?]]></title>
+    <link href="http://rasmuskl.dk/2012/01/03/peer-reviews-why-bother/"/>
+    <id>http://rasmuskl.dk/2012/01/03/peer-reviews-why-bother/</id>
+    <published>2012-01-03T22:58:38.000Z</published>
+    <updated>2015-10-31T16:13:10.323Z</updated>
+    <content type="html"><![CDATA[<img src="/post-images/stamp.jpg" class="right">
+
+
+<p>Working with code is tricky business – the larger and more complex the code base, the more tricky. Ingraining micro-processes into your work day can help fix some of the issues, some of the broken windows that grow into almost any code base over time. Peer reviews is a great starting point.</p>
+<p>There are many forms of peer review – but this post is mainly about informal check-in reviews. The process is simple: Any commit to the code repository must be signed off by another member of the team. Many argue that small commits are okay to go unchecked - but the size of a “small commit” grows in my experience. My counterargument is that a small commit will only take 30 seconds or less. Simply bring up the change set, go over the changes, discuss anything needed informally, then add “Review: &lt;initials&gt;” to the commit message and fire away.</p>
+<h2>Benefits?</h2>
+<p>One of the first things you’ll notice when you introduce peer reviews is <strong>catching common commit mistakes</strong>. These include small changes in files made while testing or debugging that were not meant to be committed, files that were not related to the current commit and, if your reviewer is alert, files missing from the commit. </p>
+<p>Another small side effect is a <strong>subconscious increase in code quality</strong>. Knowing that someone else will review your code closely will increase the mental barrier to introducing hacks and other peculiarities that <del>sometimes</del> sneak into code.</p>
+<p>While many developers focus more on writing self-documenting, readable code, getting another pair of eyes on the code is great for clarifying the intent of the code – uncovering small scale refactorings such as renames and extractions. The earlier you <strong>uncover and discuss minor design issues</strong> like these and further <strong>aligning team coding styles</strong>, the better shape the code base is likely to end up. Aligning coding styles across multiple teams is a hard task, any improvement is worth taking. Once in a while a peer review will uncover larger design issues and ultimately lead to discarding the code under review and going for a different solution. This is not always a pleasant experience, but it’s <strong>easier to kill your darlings when nudged in the right direction</strong> by a colleague. </p>
+<p>In line with the last paragraph, reviews also <strong>often spur discussions about larger things like domain concepts and architecture</strong> – it just seems to come up more when looking at concrete issues in the code base. Likewise, the reviewer is investing some of this time in the code and putting his name on it, thus <strong>increasing shared code ownership</strong> of the code.</p>
+<p>Lastly, just seeing how other developers work can <strong>give insight in other developers IDE and tool tricks</strong>. Being a keyboard-junkie myself, I often find myself exchanging IDE / productivity tips during reviews.</p>
+<h2>Conclusion</h2>
+<p>Information code reviews are, in my opinion, one of the cheaper ways to directly affect code quality – assuming it’s taken seriously of course. You might notice that many of these benefits are the same as with pair programming – and they are. Pair programming is usually harder to get started on and not suited for all assignments, although most teams ought to do way more pair programming than they are. Peer review is broadly applicable. Try it with your team for a week or a month – if I’m wrong and nothing improves, I’ll buy you a beer next time we meet :-)</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Craftsmanship/" term="Craftsmanship"/>
+    <category scheme="http://rasmuskl.dk/tags/Thoughts/" term="Thoughts"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Check your backups – unexpected SQL Server VSS backup]]></title>
+    <link href="http://rasmuskl.dk/2011/11/30/check-your-backups-unexpected-sql-server-vss-backup/"/>
+    <id>http://rasmuskl.dk/2011/11/30/check-your-backups-unexpected-sql-server-vss-backup/</id>
+    <published>2011-11-29T23:25:47.000Z</published>
+    <updated>2015-10-31T16:13:10.319Z</updated>
+    <content type="html"><![CDATA[<p>Your backup is only as good as your last restore. I recently changed my backup strategy on my SQL Server 2008 from doing a full nightly backup to doing incremental nightly backups and only a full backup each week. SQL Server incremental backups base themselves on the last <u>full</u> backup. This is nice when you go to restore them since you will only need the full backup + the incremental backup, not any intermediary backups.</p>
+<p>However, a few days back I wanted to check some queries on a larger dataset and decided to check my backups at the same time. Fetched full + incremental backups from the server and started the local restore:</p>
+<figure class="highlight lang-sql"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>RESTORE DATABASE [testdb]
+FROM DISK = N'C:\temp\full.wbak'
+WITH FILE = 1, NORECOVERY, <span class="operator"><span class="keyword">REPLACE</span>
+
+RESTORE DATABASE [testdb]
+<span class="keyword">FROM</span> DISK = N<span class="string">'C:\temp\incremental.bak'</span>
+<span class="keyword">WITH</span> FILE = <span class="number">1</span>, RECOVERY
+</pre></td></tr></table></figure>
+
+<p>The first backup went through fine, but restoring the incremental backup resulted in the following error message: </p>
+<font color="#ff0000">This differential backup cannot be restored because the database has not been restored to the correct earlier state.</font> 
+
+<p>SQL Server refused to restore my incremental database – this is only supposed to happen if there has been another full backup in between. I double checked the backups I had fetched, checked that I had the set up the new backups correctly and that the old backup job was gone. Everything seemed fine.</p>
+<p>I then explored the backup history a bit further with a query adjusted from the one found in <a href="http://blog.sqlauthority.com/2010/11/10/sql-server-get-database-backup-history-for-a-single-database/" target="_blank">this</a> post:</p>
+<figure class="highlight lang-sql"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="operator"><span class="keyword">SELECT</span> TOP <span class="number">10</span>
+s.database_name,
+m.physical_device_name,
+s.backup_start_date
+<span class="keyword">FROM</span> msdb.dbo.backupset s
+<span class="keyword">INNER</span> <span class="keyword">JOIN</span> msdb.dbo.backupmediafamily m <span class="keyword">ON</span> s.media_set_id = m.media_set_id
+<span class="keyword">WHERE</span> s.database_name = DB_NAME() -- Remove this line <span class="keyword">for</span> <span class="keyword">all</span> the database
+<span class="keyword">ORDER</span> <span class="keyword">BY</span> backup_start_date <span class="keyword">DESC</span>
+</pre></td></tr></table></figure>
+
+<p>The result showed that there had indeed been backups in between my nightly runs:</p>
+<img src="/post-images/image_thumb_1.png">
+
+
+<p>Further research revealed that backup devices with a GUID name are virtual backup devices and the times of backups matched the daily schedule of our bare metal system backup. Turns out that <a href="http://www.r1soft.com/windows-cdp/" target="_blank">R1Soft&#39;s backup software</a> integrates with SQL Server’s VSS writer service to perform backups when it finds databases on disk.</p>
+<p>Disabling the VSS writer service returned the backups to a working state (VSS backup + my own incremental would also have worked). I did consider skipping my own nightly backups (since the VSS backup is super fast) and just using the R1Soft one, but decided against it for now – my own management is already set up and if I do need to restore, grabbing the backup from the external backup is much slower and more tedious than having it on disk already.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/SQL Server/" term="SQL Server"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[NHibernate Flushing and You]]></title>
+    <link href="http://rasmuskl.dk/2011/06/15/nhibernate-flushing-and-you/"/>
+    <id>http://rasmuskl.dk/2011/06/15/nhibernate-flushing-and-you/</id>
+    <published>2011-06-14T23:47:21.000Z</published>
+    <updated>2015-10-31T16:13:10.317Z</updated>
+    <content type="html"><![CDATA[<p>Working with NHibernate, you will eventually have to know something about flushing. Flushing is the process of persisting the current session changes to the database. In this post, I will explain how flushing works in NHibernate, which options you have and what the benefits and disadvantages are.</p>
+<p>As you work with the NHibernate session, loading existing entities and attaching new entities, NHibernate will keep track of the objects that are associated with current session. When a flush is triggered, NHibernate will perform dirty checking; inspect the list of attached entities to determine what needs to be saved and which SQL statements are required to persist the changes.</p>
+<p>NHibernate offers several different flush modes that determine when a flush is triggered. The flush mode can be set using a property on the session (usually when opening the session).</p>
+<p>Out of the box NHibernate defaults to <strong>FlushMode.Auto</strong> which is a flush mode that offers a minimum of surprises while providing decent performance. Auto will flush changes to the database when a manual flush is performed (using ISession.Flush()), when a transaction is committed and when NHibernate deems that an auto flush is necessary to serve up-to-date results in response to queries. While the auto flush is convenient, it does cause a few disadvantages as well. To determine whether an auto flush is required before executing a query NHibernate has to inspect the entities attached to the session. This is clearly a performance overhead and unfortunately as application complexity (and thus likely session length, number of queries and number of attached entities) increases, the cost will be in the ballpark of O(q<em>e) – quadratic growth based on number of <strong>q</strong>ueries and <em>*e</em></em>ntities. Furthermore auto flushes are not always easy to predict, especially in complex systems – this can lead to unexpected exceptions if using things like NHibernates merge and replicate features (a blog post all by itself).</p>
+<p>A better solution for bigger applications is <strong>FlushMode.Commit</strong>, this flush mode will flush on manual flushes and when transactions are committed. Avoiding auto flushes provides quite a few performance opportunities, it will potentially require fewer SQL statements (multiple changes to the same data), it will cause fewer round trips to the database and thus enable better batching. What you need to understand before changing your flush mode to FlushMode.Commit is that your queries may return stale results until you commit transactions. However, this is generally what people expect when working with transactions, so it is usually not a problem. In some cases, you might have to perform a manual flush, but it makes sense to reduce the number of these (since they defeat the benefit of the flush mode).</p>
+<p>NHibernate offers two more (usable) flush modes. <strong>FlushMode.Always</strong> will trigger a flush before every query and is thus generally not useful except for maybe some special edge cases. <strong>FlushMode.Never</strong> will cause the session to only flush when manually flushing – this can be useful to create a read-only session (better performance and more assurance that no flushes are performed). For read-only / bulk needs, it’s also practical to look into IStatelessSession (low memory / performant for bulk operations) and ReadOnly on queries and criterias introduced in NHibernate 3.1.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/NHibernate/" term="NHibernate"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Countdown timer]]></title>
+    <link href="http://rasmuskl.dk/2011/05/26/countdown-timer/"/>
+    <id>http://rasmuskl.dk/2011/05/26/countdown-timer/</id>
+    <published>2011-05-26T20:38:05.000Z</published>
+    <updated>2015-10-31T16:13:10.315Z</updated>
+    <content type="html"><![CDATA[<p>I demoed a small app today at the Demo Dag session at Community Day.</p>
+<p>The app was developed at an ANUG Code Dojo - and the purpose is simply to create timers that are a few pixels high either at the bottom or top of your screen - to be used for running Pomodoros or other timing needs - like an informal timer for a presentation.</p>
+<p>I got a few requests for the app, so I&#39;ve uploaded the source to Bitbucket <a href="http://bitbucket.org/rasmuskl/countdown/downloads" target="_blank">here</a> (there‘s also a v. 0.1 zip file with an executable - if you don’t want to build from source).</p>
+<p>Bear in mind that this app was hacked together in a few hours (with the purpose of learning WPF actually - we got sidetracked) - so don&#39;t expect quality code or an excellent polished app. It has quirks - you have been warned :-)</p>
+<img src="/post-images/image_thumb.png">
+
+
+<p>Enjoy.</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Presentations/" term="Presentations"/>
+  </entry>
+  <entry>
+    <title type="html"><![CDATA[Slides from ANUG VS Launch Event]]></title>
+    <link href="http://rasmuskl.dk/2010/05/24/slides-from-anug-vs-launch-event/"/>
+    <id>http://rasmuskl.dk/2010/05/24/slides-from-anug-vs-launch-event/</id>
+    <published>2010-05-24T10:53:33.000Z</published>
+    <updated>2015-10-31T16:13:10.313Z</updated>
+    <content type="html"><![CDATA[<p>I spoke last week about ReSharper 5 at <a href="http://www.anug.dk" target="_blank">ANUG</a>’s Visual Studio 2010 launch event. </p>
+<p>Here are the slides from my presentation. The slides are in danish and probably won’t make too much sense as most of my presentation was done demoing stuff – but they should give the gist of it.</p>
+<p><a href="/files/ReSharper-5-ANUG-VS-Launch.pptx">Slides</a></p>
+<p>If you have any questions on my presentation, feel free to shoot me a mail here on the blog :-)</p>
+]]></content>
+    <category scheme="http://rasmuskl.dk/tags/Presentations/" term="Presentations"/>
+    <category scheme="http://rasmuskl.dk/tags/ReSharper/" term="ReSharper"/>
+    <category scheme="http://rasmuskl.dk/tags/ANUG/" term="ANUG"/>
+  </entry>
+</feed>

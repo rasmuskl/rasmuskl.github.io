@@ -1,0 +1,253 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>My Git + PowerShell setup for .NET development | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="I‘ve been using git for a couple of years and thought I would document my setup. Git’s linux heritage shows and while it‘s not many tools that I use v">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="My Git + PowerShell setup for .NET development"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">My Git + PowerShell setup for .NET development</h1>
+  
+
+        
+          <time datetime="2013-09-23T21:16:51.000Z"><a href="/2013/09/23/git-powershell-setup/">Sep 23 2013</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Git/">Git</a>, <a href="/tags/PowerShell/">PowerShell</a>, <a href="/tags/Tips/">Tips</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <img src="/post-images/git.png" class="right">
+
+
+<p>I‘ve been using git for a couple of years and thought I would document my setup. Git’s linux heritage shows and while it‘s not many tools that I use via a shell, it’s actually a real breeze. So I&#39;ve mainly been using it through PowerShell.</p>
+<h2>Git</h2>
+<p>I run the plain <a href="http://msysgit.github.io/" target="_blank">Git for Windows</a> installation.</p>
+<p>My only comment for the installation is that I usually choose the option (not default) to use checkout-as-is, commit-as-is for line endings. I mainly work with .NET projects and prefer to keep my Windows line endings in the repository to avoid any problems.</p>
+<h3>.gitattributes</h3>
+<p>The line endings configuration can give problems in a mixed team - and recently I&#39;ve been using a <code>.gitattributes</code> file in the root of my repositories with the following content:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="comment">*</span> <span class="literal">-</span><span class="comment">text
+</pre></td></tr></table></figure>
+
+<p>This will instruct git to not mess with any line endings in the repository across the team, regardless of the installation options, which is nice as long as you don&#39;t have a mix of platforms.</p>
+<h3>.gitignore</h3>
+<p>I usually build my <code>.gitignore</code> file as needed - I always do <code>git status</code> before committing, so it&#39;s been quite a while since something has slipped by. My minimal <code>.gitignore</code> will usually look something like this:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="title">bin</span>
+obj
+<span class="regexp">*.csproj.user</span>
+<span class="regexp">*.suo</span>
+packages
+</pre></td></tr></table></figure>
+
+<p>Generally I prefer to use NuGet for all possible dependencies and avoid checking the binary files in to keep the overall repository size down.</p>
+<h3>posh-git</h3>
+<p>I use posh-git to get a bit of contextual information about my repository and some nice tab completion.</p>
+<img src="/wp-content/uploads/2013-09-23-20_29_45-poshgit-test-project-master.png">
+
+
+<p>posh-git is rather simple to install by following the instructions in the main <a href="https://github.com/dahlbyk/posh-git" target="_blank">repository</a>.</p>
+<h3>gitk</h3>
+<p>Working in a shell environment is fine for many of the every day operations, sometimes a bit of GUI can be nice to get an overview. Git includes <code>gitk</code> which while a bit basic usually works just fine. I usually launch it with <code>gitk --all</code> to see all branches.</p>
+<img src="/wp-content/uploads/2013-09-23-21_27_26-gitk_-alphalaunch.png">
+
+
+<p>If you want a more advanced GUI for Git, you can either download <a href="http://www.sourcetreeapp.com/" target="_blank">SourceTree</a> from Atlassian or <a href="http://windows.github.com/" target="_blank">GitHub for Windows</a>.</p>
+<h2>PowerShell</h2>
+<p>My PowerShell setup mainly consists of my profile, which is loaded when PowerShell starts. On my system it&#39;s found under:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>C:<span class="command">\Users</span><span class="command">\Rasmus</span><span class="command">\Documents</span><span class="command">\WindowsPowerShell</span><span class="command">\Microsoft</span>.PowerShell_profile.ps1
+</pre></td></tr></table></figure>
+
+<p>You can however access it through PowerShell using <code>$PROFILE</code> variable. So you can easily edit it with:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="title">notepad</span> <span class="variable">$PROFILE</span>
+</pre></td></tr></table></figure>
+
+<p>After you‘ve made changes to your profile, you’ll have to reload it into the current PowerShell session with:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>. <span class="variable">$PROFILE</span>
+</pre></td></tr></table></figure>
+
+<p>My full PowerShell profile is available in this <a href="https://gist.github.com/rasmuskl/3786798" target="_blank">gist</a>.</p>
+<h3>General purpose aliases</h3>
+<p>I have two aliases set up that I use often, but are not entirely Git related. First off I have <code>np</code>:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>set-alias -name np -value "C:<span class="command">\Program</span> Files<span class="command">\Sublime</span> Text 3<span class="command">\sublime</span>_text.exe"
+</pre></td></tr></table></figure>
+
+<p>This is just always set up to open my current text editor whenever it&#39;s <a href="http://www.sublimetext.com/" target="_blank">Sublime Text</a> or <a href="http://notepad-plus-plus.org/" target="_blank">Notepad++</a> and used to do quick edits.</p>
+<p>My other alias is <code>vsh</code>, which is just short for “Visual Studio here”. What it‘ll do is to search recursively from the current folder and open the first solution it encounters. It’ll give you a quick standard way to open your solution from the root of a repository where you generally want your shell most of the time anyway.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">vsh</span><span class="params">()</span> {</span>
+  Write-Output <span class="string">"Opening first solution..."</span>
+    <span class="variable">$sln</span> = (dir -in *.sln -r | Select -first <span class="number">1</span>)
+    Write-Output <span class="string">"Found $($sln.FullName)"</span>
+    Invoke-Item <span class="variable">$sln</span>.FullName
+}
+</pre></td></tr></table></figure>
+
+<img src="/wp-content/uploads/2013-09-23-21_06_03-poshgit-alphalaunch-master.png">
+
+
+<h3>Git aliases</h3>
+<p>I have two main aliases for interacting with Git, namely <code>ga</code> and <code>gco</code>.</p>
+<p>My alias for adding everything to the staging area is <code>ga</code>. For a long time I&#39;d use <code>git add .</code> usually and then <code>git add -A</code> whenever I also had deletes - but I&#39;m happy with <code>ga</code> now. As a bonus it also does a <code>git status</code> so I‘m forced to review what the heck I’m doing.</p>
+<figure class="highlight lang-powershell"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">ga</span><span class="params">()</span> {</span>
+  Write-Output <span class="string">"Staging all changes..."</span>
+    git add -A
+    git status
+}
+</pre></td></tr></table></figure>
+
+<p>After staging files I have to commit obviously. I got a bit annoyed with typing <code>git add -m &quot;blah&quot;</code> all the time and came up with <code>gco</code>. Besides being shorter, it has 2 little twists:</p>
+<ul>
+<li>If you add <code>-a</code> or <code>-amend</code> it&#39;ll do a <code>git commit --amend</code> for overwriting the last commit. Useful for fixing typoes or unsaved files that didn&#39;t make it into the commit.</li>
+<li>Under most circumstances you can leave out the surrounding quotes and it&#39;ll work just fine. So you can write <code>gco message</code> instead of <code>gco &quot;message&quot;</code>. If you&#39;re using special chars like apostrophes in your messages however, you still have to add the quotes.</li>
+</ul>
+<figure class="highlight lang-powershell"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">gco</span><span class="params">()</span> {</span>
+  param([<span class="keyword">switch</span>]<span class="variable">$amend</span>, [<span class="keyword">switch</span>]<span class="variable">$a</span>)
+
+    <span class="variable">$argstr</span> = <span class="variable">$args</span> -join <span class="string">' '</span>
+    <span class="variable">$message</span> = <span class="string">'"'</span>, <span class="variable">$argstr</span>, <span class="string">'"'</span> -join <span class="string">''</span>
+
+    <span class="keyword">if</span> (<span class="variable">$amend</span> -<span class="keyword">or</span> <span class="variable">$a</span>) {
+      Write-Output <span class="string">"Amending previous commit with message: $message"</span>
+        git commit -m <span class="variable">$message</span> --amend
+    } <span class="keyword">else</span> {
+      Write-Output <span class="string">"Committing with message: $args"</span>
+        git commit -m <span class="variable">$message</span>
+    }
+}
+</pre></td></tr></table></figure>
+
+<p>I also have a <code>gca</code> alias, which is basically <code>gco -a</code> - but I don&#39;t use it often. You can grab it from the <a href="https://gist.github.com/rasmuskl/3786798" target="_blank">profile gist</a>.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

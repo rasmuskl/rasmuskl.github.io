@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ReSharper Series - Part 3: Auto-completion / Intellisense | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="This is the 3. part of my ReSharper series. Today we are going to have a look at how ReSharper helps you complete your code / show options while progr">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="ReSharper Series - Part 3: Auto-completion / Intellisense"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">ReSharper Series - Part 3: Auto-completion / Intellisense</h1>
+  
+
+        
+          <time datetime="2009-02-04T20:12:58.000Z"><a href="/2009/02/04/resharper-series-part-3-auto-completion-intellisense/">Feb 4 2009</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/ReSharper/">ReSharper</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <p>This is the 3. part of my <a href="/2009/01/10/resharper-series/">ReSharper series</a>. Today we are going to have a look at how ReSharper helps you complete your code / show options while programming. I know I didn‘t know about some of these for a long time, maybe there’s something new for you as well?</p>
+<h2>Standard Symbol Completion</h2>
+<p>This is the basic intellisense that you are used to and the one that is automatically provided for you whenever you are typing. It contains everything that matches the prefix that you have written in the scope (class, object, etc) that is relevant - just like you are used to from normal Visual Studio intellisense.</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart3IntellisenseCompleti_114CF/image_thumb.png">
+
+
+<p>The keyboard shortcuts for enabling this type of completion is either <strong>Ctrl+Space</strong> or <strong>Alt+Right Arrow</strong>, with Ctrl+Space being the usual one. Now as I mentioned this is enabled when you are typing, but say you have returned to a line of code you were writing and it doesn&#39;t pop up on its own, this is the shortcut to be hitting.</p>
+<h2>Import Completion</h2>
+<p>Remember in <a href="/2009/01/21/resharper-series-part-1-the-power-of-alt-enter/">part 1</a> when I mentioned an easier way to import namespaces than typing out the full name and doing a quick fix (<strong>Alt+Enter</strong>)? Well this is it. With this auto-completion mode, you can as ReSharper to complete the names of types that are not imported yet, thus not requiring to type the full type name and getting the automatic import for free.</p>
+<p>Say I wanted to use a LinkedList in my CheckBalance method shown above, the standard auto-completion isn&#39;t very helpful since I have not imported the collections namespace:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart3IntellisenseCompleti_114CF/image_thumb_5.png">
+
+
+<p>This doesn&#39;t really help me much. However, if you enable symbol import by pressing <strong>Alt+Shift+Space</strong> [IntelliJ: <strong>Ctrl+Alt+Space</strong>], this is what you get:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart3IntellisenseCompleti_114CF/image_thumb_6.png">
+
+
+<p>ReSharper will complete the common prefix and suggest type names in other namespaces. When using generic types I usually hit <strong>&lt;</strong> at this point and type out the generic constraint. While writing this post I noticed that it was behaving oddly when completing types with multiple generic types, but it might just be me. Anyway it is a really helpful in addition to the basic intellisense that we usually use.</p>
+<h2>Smart Completion</h2>
+<p>To be honest I hadn‘t looked at this completion mode until recently - but ReSharper actually also has a completion mode that tried to be clever about the type context of the expression you are currently writing. Since ReSharper knows the scope of the code you’re writing and it has an idea about the current expression, what smart completion does it to filter the completion list to only show symbols that have the relevant type.</p>
+<p>I find that I mostly use smart completion when I am writing method calls, especially if I am either messing in some code that I don&#39;t know that well (since the completion list is often much smaller) or if I know that there is only one possible completion. In the latter case, ReSharper will do the full complete when enabling the completion and proceed to the next parameter instantly.</p>
+<p>If I have a method that takes a boolean for example, enabling smart completion will only suggest symbols that actually have the relevant type, like so:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart3IntellisenseCompleti_114CF/image_thumb_8.png">
+
+
+<p>The shortcut to use smart completion is <strong>Ctrl+Alt+Space</strong> [IntelliJ: <strong>Ctrl+Shift+Space</strong>]. I find that it is somewhat situational for me, but it is useful - I use the other two more though.</p>
+<p><strong>Hint:</strong> Out of personal opinion, I suggest that people using Visual Studio bindings remap these keys so that Import Completion become <strong>Alt+Ctrl+Space</strong> like in IntelliJ - I use it much more often and it&#39;s so much easier to hit this combination. Smart Completion could then be <strong>Alt+Shift+Space</strong>.</p>
+<h2>Camel Humps</h2>
+<p><a href="http://www.publicvoid.dk" target="_blank">S�ren</a> mentioned camel humps when I was talking about basic navigation in the last post - and this also holds true for all the auto-completions shown above. If you type upper case letters while completing, it will match camel humps in the list. For example, if I wanted to use a LinkedResourceCollection as seen in the symbol completion example, here&#39;s what I could do:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart3IntellisenseCompleti_114CF/image_thumb_9.png">
+
+
+<p>I find that this is mostly useful when you have types with long names that you use often.</p>
+<h2>Case Sensitivity</h2>
+<p>Another thing you can do if you want more control over what is filtered in the completion lists is to enable case sensitive prefix matching in the ReSharper settings under IntelliSense -&gt; Completion Behavior. </p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart3IntellisenseCompleti_114CF/image_thumb_10.png">
+
+
+<p>This will force ReSharper to match the case as you are typing and it will only present symbols that actually match the case - this could potentially be useful if you don&#39;t prefix your instance fields (personally I prefer prefixing with underscore).</p>
+<p>Without case sensitivity:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart3IntellisenseCompleti_114CF/image_thumb_13.png">
+
+
+<p>With case sensitivity:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart3IntellisenseCompleti_114CF/image_thumb_12.png">
+
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart3IntellisenseCompleti_114CF/image_thumb_11.png">
+
+
+<p>I haven&#39;t played around with case sensitivity enabled so much, generally I just accept having a longer result list and not being forced to case my identifiers.</p>
+<h2>Summary</h2>
+<p>In this post I gave an introduction to the auto-completion modes of ReSharper, try them out and see what works for you, I especially recommend the import symbol completion if you are not already using it.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

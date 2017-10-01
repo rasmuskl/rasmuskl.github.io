@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Patterns: Iterator And .NET - Yield I Say! | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="Introduction
+In this second post of my patterns and principles series, I aim to give an overview of the Iterator pattern, a pattern most of us .NET pe">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Patterns: Iterator And .NET - Yield I Say!"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">Patterns: Iterator And .NET - Yield I Say!</h1>
+  
+
+        
+          <time datetime="2008-11-11T22:24:51.000Z"><a href="/2008/11/11/patterns-iterator-and-net-yield-i-say/">Nov 11 2008</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/C#/">C#</a>, <a href="/tags/Patterns/">Patterns</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <h2>Introduction</h2>
+<p>In this second post of my patterns and principles series, I aim to give an overview of the Iterator pattern, a pattern most of us .NET people have so integrated in our languages that we don‘t even think about it. But it is still useful to know the theory of the pattern and how it is integrated into the framework - the solution baked in allows for more variation than you’d think.</p>
+<h2>The Theory</h2>
+<p>According to Gang of Four, the Iterator pattern&#39;s intent is to:</p>
+<blockquote>
+<p>Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation.</p>
+</blockquote>
+<p>Basically what we want to do is abstract the traversal so we don‘t have to worry about it. The Iterator will provide us with a nice interface for getting the next object in our data structure, maintain state about how far we’ve already progressed in our traversal and tell us when we&#39;re done. Abstracting the traversal also makes it easier to change the actual traversal - like if you want to iterate over your data structure in reverse order.</p>
+<p>Furthermore, encapsulating the traversal logic in an Iterator will often result in higher cohesion and lower coupling for client code. Higher cohesion because they can more clearly express their intent instead of worrying about iteration state and order - and lower coupling because they are not as tied to the actual implementation of the data structure being iterated. As a result, it is possible with Iterators to provide a uniform interface for traversing different data structures.</p>
+<p>Iterators are also sometimes used as Generators, where they generate a series of values instead of actually iterating over an object structure. If implemented lazily, these can generate potentially infinite series like a never-ending stream of numbers or primes or whatever.</p>
+<h2>How Does It Work In .NET?</h2>
+<p>One of the reasons we rarely think about the Iterator pattern is because it&#39;s so embedded into our languages. In the .NET world, an Iterator is actually called an Enumerator - and if we look in the framework documentation, we find an interface named <code>IEnumerator</code> that looks something like this (the generic version):</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IEnumerator</span>&lt;<span class="title">T</span>&gt;
+{</span>
+	<span class="keyword">bool</span> MoveNext();
+	<span class="keyword">void</span> Reset();
+	T Current { <span class="keyword">get</span>; }
+}
+</pre></td></tr></table></figure>
+
+<p>This looks a lot like the abstraction described in the Gang of Four book. But how often do you actually see the <code>IEnumerator</code> interface in your code - not too often I bet. This is because the pattern is even more tightly integrated into the framework. Digging deeper, we find the <code>IEnumerable</code> interface which looks like this:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+</pre></td><td class="code"><pre>public interface IEnumerable<span class="tag">&lt;<span class="title">T</span>&gt;</span>
+{
+	IEnumerator<span class="tag">&lt;<span class="title">T</span>&gt;</span> GetEnumerator();
+}
+</pre></td></tr></table></figure>
+
+<p>So any class that implements the <code>IEnumerable</code> interface is able to supply you with an Iterator. Lots of classes in the .NET framework implement <code>IEnumerable</code> - and a naive usage of it might look something like this:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre>void NaiveEnumeration()
+{
+	var list = new ArrayList&lt;int&gt; { <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> }<span class="comment">;</span>
+	
+	var enumerator = list<span class="preprocessor">.GetEnumerator</span>()<span class="comment">;</span>
+	while(enumerator<span class="preprocessor">.MoveNext</span>()) 
+	{
+		var number = enumerator<span class="preprocessor">.Current</span><span class="comment">;</span>
+		Console<span class="preprocessor">.WriteLine</span>(number)<span class="comment">;</span>
+	}
+}
+</pre></td></tr></table></figure>
+
+<p>But iteration is something we do often - and the pattern has even mandated its own keyword - <code>foreach</code> - so when you go like this:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre><span class="keyword">void</span> NormalEnumeration()
+{
+	<span class="keyword">var</span> list = <span class="keyword">new</span> ArrayList&lt;<span class="keyword">int</span>&gt; { <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> };
+	
+	<span class="keyword">foreach</span>(<span class="keyword">var</span> number <span class="keyword">in</span> list)
+	{
+		Console.WriteLine(number);
+	}
+}
+</pre></td></tr></table></figure>
+
+<p>You&#39;re actually using the <code>IEnumerable</code> and <code>IEnumerator</code> interfaces, you just don&#39;t see them. Simply put, foreach is really just syntactic sugar for the above construction - conceptually at least.</p>
+<p>But this isn&#39;t all. Since C# 2.0, there has also been the <a href="http://msdn.microsoft.com/en-us/library/9k7k7cf0.aspx" target="_blank">yield</a> keyword. Yield can be somewhat tricky to wrap your head around at first, but once you&#39;ve used it a few times, you really appreciate the power of it. It provides a nice and clean way of implementing the Iterator pattern without worrying too much about managing state. It basically allows you to point out values have the framework create an Iterator for you. The reason it can be somewhat confusing is that it messes with the normal semantics of executing a method. Lets take an example:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre>IEnumerable&lt;<span class="keyword">int</span>&gt; GetNumbers()
+{
+	<span class="keyword">var</span> number = <span class="number">1</span>;
+	<span class="keyword">while</span>(<span class="keyword">true</span>)
+	{
+		<span class="keyword">yield</span> <span class="keyword">return</span> number;
+		number += <span class="number">1</span>;
+	}
+}
+</pre></td></tr></table></figure>
+
+<p>At first sight, this method looks kind of broken. Notice that the function returns an <code>IEnumerable</code> - that is: an object that provides an <code>IEnumerator</code>. The <code>IEnumerator</code> is created for us behind the scenes and whenever it encounters your <code>yield return</code> statement, it “freezes” your method and returns this value. When <code>MoveNext</code> is called the next time (explicitly or through a foreach loop), the code picks up exactly where it stopped last time - in this case adding 1 to number and yielding once again. Note that even though this code won&#39;t loop forever when creating the Iterator, a <code>foreach</code> statement using <code>GetNumbers</code> will - as expected.</p>
+<p>There&#39;s also a <code>yield break</code> statement that you can use when implementing an Iterator with yield - it just returns nothing and stops the iteration, much like the <code>break</code> statement in a <code>for</code> loop.</p>
+<h2>Variation Point (And More .NET)</h2>
+<p>As with most patterns, the Iterator has variation points. One of the variation points in the Iterator pattern is who controls the iteration. Gang of Four distinguishes between an <strong>internal iterator</strong> and an <strong>external iterator</strong>. </p>
+<p>With an external iterator the client of the iterator has the responsibility for advancing the iterator explicitly and to request the item that is being processed. The examples we saw above using the various constructs are all examples of external iterators.</p>
+<p>An internal iterator on the other hand is more declarative, with an internal iterator, we actually don&#39;t see the iterator itself, but we provide an operation to be performed on the iterated elements. An example of this is the <code>ForEach</code> method defined on <code>List&lt;T&gt;</code>. This allows you to pass a delegate that is to be executed on each element in the list. In C# 3.0, using lambdas the above could look something like this:</p>
+<figure class="highlight lang-csharp"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>void InternalEnumeration()
+{
+	<span class="keyword">var</span> <span class="keyword">list</span> = <span class="keyword">new</span> ArrayList&lt;int&gt; { <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span> };
+	
+	<span class="keyword">list</span>.<span class="keyword">ForEach</span>(number =&gt; Console.WriteLine(number));
+}
+</pre></td></tr></table></figure>
+
+<p>In this case we no longer control the iterator and can‘t stop after 2 elements if that’s what we wanted.</p>
+<p>Considering LINQ in this light is left as an exercise to the reader.</p>
+<h2>Conclusion</h2>
+<p>In this post I&#39;ve given a short introduction to the Iterator pattern and shown how we use it every day without even thinking about it. But they can be used for much more than our every day scenario iterating over already made collections. And be sure to play around with the yield statement.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

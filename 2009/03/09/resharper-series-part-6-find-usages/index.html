@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ReSharper Series - Part 6: Find Usages | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="This is the 6th post in my ReSharper Series - this time we are going to look at how to find usages of particular code members in your code. While plai">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="ReSharper Series - Part 6: Find Usages"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">ReSharper Series - Part 6: Find Usages</h1>
+  
+
+        
+          <time datetime="2009-03-09T20:54:42.000Z"><a href="/2009/03/09/resharper-series-part-6-find-usages/">Mar 9 2009</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/ReSharper/">ReSharper</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <p>This is the 6th post in my <a href="/2009/01/10/resharper-series/">ReSharper Series</a> - this time we are going to look at how to find usages of particular code members in your code. While plain old text search can be useful sometimes, a structured search is really awesome for getting a good overview. In addition, the standard ReSharper setup on this feature is rather bad compared to what is possible, so a bit of UI tweaking (very simple) is also available.</p>
+<h2>Find Usages</h2>
+<p>Find usages works on almost all code elements, be it classes, methods or variables, invoking it by pressing <strong>Shift+F12</strong> [IntelliJ: <strong>Alt+F7</strong>] will open a result window, which show the places in your project / solution where the element is used. Using the ASP.NET MVC source, in the Controller class, invoking Find Usages on the ModelState property:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart8FindUsages_128DA/image_thumb_5.png">
+
+
+<p>This gives us the following results window:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart8FindUsages_128DA/image_thumb_12.png">
+
+
+<p>Usages are presented on a namespace level, showing the line of code that includes the given element. Double-clicking or hitting Enter on a line jumps to the file. </p>
+<h2>Pimp My Search Results</h2>
+<p>While this results window is useful, you would often like slightly more information. In the options row of the Find Usages window, there is a group by drop down, which is set to Namespace as default - and most people I have seen using ReSharper never change this.</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart8FindUsages_128DA/image_thumb_7.png">
+
+
+<p>There are a lot of grouping options available, as shown above - I usually prefer the Namespace and Type option, giving me the same Namespace overview that I had before, but allowing me to see the names of the actual classes that use the element.</p>
+<p>Another useful option is the Show Preview option, also found on the options row of the Find Usages window. This is disabled by default, but enabling it will show a preview of the code surrounding the selected line in the search results.</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart8FindUsages_128DA/image_thumb_9.png">
+
+
+<p>Since I usually have my Find Usages window docked in the bottom (auto-hiding though) of my screen, I prefer setting the Show Preview to Right.</p>
+<p>With these small tweaks, the Find Usages window now look like this:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart8FindUsages_128DA/image_thumb_11.png">
+
+
+<h2>Go To Usage</h2>
+<p>Sometimes you are not interested in looking at the results of your search in the Find Usages window - you have your cursor at some code element and you want to navigate directly to a usage. Hitting <strong>Alt+Shift+F12</strong> [IntelliJ: <strong>Ctrl+Alt+F7</strong>] will bring up a code-completion-like-menu to quickly jump to a usage. Invoking this on the ModelState gives us the following result: </p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart8FindUsages_128DA/image_thumb_4.png">
+
+
+<p>Selecting an item from the list jumps directly to usage. In a later post, we will explore more of these quick-navigation options from directly within the code editor.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

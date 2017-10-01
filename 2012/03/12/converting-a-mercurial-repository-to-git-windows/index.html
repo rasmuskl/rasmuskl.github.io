@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Converting a Mercurial repository to Git (Windows) | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="After going through the pain of (re-)discovering how to convert a Mercurial repository into a Git repository on Windows, I thought I’d share how easy ">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Converting a Mercurial repository to Git (Windows)"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">Converting a Mercurial repository to Git (Windows)</h1>
+  
+
+        
+          <time datetime="2012-03-12T21:43:09.000Z"><a href="/2012/03/12/converting-a-mercurial-repository-to-git-windows/">Mar 12 2012</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/Source Control/">Source Control</a>, <a href="/tags/Git/">Git</a>, <a href="/tags/Mercurial/">Mercurial</a>, <a href="/tags/Tips/">Tips</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <p>After going through the pain of (re-)discovering how to convert a Mercurial repository into a Git repository on Windows, I thought I’d share how easy it really is. I’ve bounced back and forth between Mercurial and Git a few times – my current preference is Git, mainly because I like Git’s branching strategy a bit better – but really, they’re both excellent choices. I still find the best analogy for comparing them is that <a href="http://importantshock.wordpress.com/2008/08/07/git-vs-mercurial/" target="_blank">Git is MacGyver and Mercurial is James Bond</a>.</p>
+<p>You can find quite a few <a href="http://arr.gr/blog/2011/10/bitbucket-converting-hg-repositories-to-git/" target="_blank">posts</a> <a href="http://candidcode.com/2010/01/12/a-guide-to-converting-from-mercurial-hg-to-git-on-a-windows-client/" target="_blank">describing</a> how to convert – but many of the steps mentioned in those guides are not needed if you have <a href="http://tortoisehg.bitbucket.org/" target="_blank">TortoiseHg</a> installed, which most Windows Mercurial users do.</p>
+<h2>Prerequisites</h2>
+<p>As I already mentioned, this guide expects that you have <a href="http://tortoisehg.bitbucket.org/" target="_blank">TortoiseHg</a> installed on your system. </p>
+<p>For the actual conversion, we’re going to be using a Mercurial extension called <a href="https://github.com/schacon/hg-git" target="_blank">hggit</a> that enables Mercurial to push and pull from Git repositories. You can either clone the <a href="https://github.com/schacon/hg-git" target="_blank">hggit</a> repository on GitHub or grab a zipped version <a href="https://github.com/schacon/hg-git/downloads" target="_blank">here</a>.</p>
+<p>What we need is the <strong>hggit</strong> folder from the clone or zip file – put this some place handy and remember the path.</p>
+<h2>Preparing the Git repository</h2>
+<p>In this guide we’re going to be pushing our repository to a local Git repository – so let’s create a bare repository – this way you’ll avoid Git complains about <a href="http://gitready.com/advanced/2009/02/01/push-to-only-bare-repositories.html" target="_blank">pushing to a non-bare repository</a>.</p>
+<p>Open a command prompt, create a directory for the new repository and from within the directory execute: <code>git init –bare</code></p>
+<p>That’s it – our Git repository is ready. Alternatively you could push directly to a Git repository on either <a href="http://www.github.com" target="_blank">GitHub</a>, <a href="http://www.bitbucket.org" target="_blank">Bitbucket</a> or other provider.</p>
+<h2>Enabling hggit in Mercurial</h2>
+<p>Now we need to let Mercurial know about the hggit extension. This is done by adding it to the <strong>.hgrc</strong> or <strong>mercurial.ini</strong> file in your home directory (for me that’d be <strong>c:\users\rasmuskl\mercurial.ini</strong>). </p>
+<p>In the config file, find the <strong>[extensions]</strong> section – or add it at bottom if it’s not already there. Then add a reference to the hggit extension followed by the path of the hggit folder:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>hggit = c:<span class="command">\path</span><span class="command">\to</span><span class="command">\hggit</span>
+</pre></td></tr></table></figure>
+
+<h2>Converting the repository</h2>
+<p>To convert the repository, simply open your command prompt, navigate to your Mercurial repository and do: <code>hg push c:\path\to\bare\git\repository</code></p>
+<p>And you’re done. You can now either clone the bare repository to a working directory – or push it to your GitHub or Bitbucket account.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ReSharper Series - Part 5: Generating Code | rasmuskl</title>
+  <meta name="author" content="Rasmus Kromann-Larsen">
+  
+  <meta name="description" content="Welcome to the 5th part of my ReSharper Series - in this post we are going to take a look at how you can easily generate a lot of the fluff code that ">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="ReSharper Series - Part 5: Generating Code"/>
+  <meta property="og:site_name" content="rasmuskl"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="rasmuskl" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header"><div class="header-inner inner">
+  <div class="alignleft">
+    <h1><a href="/">rasmuskl</a></h1>
+  </div>
+  <nav id="main-nav" class="alignright">
+    <ul>
+      
+      <li><a href="/atom.xml">feed</a></li>
+      
+      <li><a href="/about">about</a></li>
+      
+    </ul>
+    <div class="clearfix"></div>
+  </nav>
+  <div class="clearfix"></div>
+</div>
+</header>
+  <div id="content" class="inner">
+    <div>
+  <article class="post">
+    
+    <div class="post-content">
+      <header>
+        
+  
+    <h1 class="title">ReSharper Series - Part 5: Generating Code</h1>
+  
+
+        
+          <time datetime="2009-03-04T20:55:59.000Z"><a href="/2009/03/04/resharper-series-part-5-generating-code/">Mar 4 2009</a></time>
+        
+        
+  
+  <div class="tags">
+    <a href="/tags/ReSharper/">ReSharper</a>
+  </div>
+
+        <div class="clearfix" />
+      </header>
+      <div class="entry">
+        
+          <p>Welcome to the 5th part of my <a href="/2009/01/10/resharper-series/">ReSharper Series</a> - in this post we are going to take a look at how you can easily generate a lot of the fluff code that surrounds your real functionality.</p>
+<p>While C# is a great language, there is a quite of bit of the code that you write every day that feels somewhat crufty. It is these standard things that we do a thousand times, like writing constructors, properties, backing fields to said properties (better with automatic properties - but you still often need a backing field). Luckily, ReSharper can help ease your pain - or at least let you focus on writing that core functionality - and not worry about the cost of adding another class (in terms of typing).</p>
+<h2>Generating Class Members</h2>
+<p>We have already the power of <strong>Alt+Enter</strong> in one of the <a href="/2009/01/21/resharper-series-part-1-the-power-of-alt-enter/">earlier posts</a> - and this a tool that most people I have seen use for creating new code. It can do stuff like implementing missing methods and assigning creating backing fields for you from constructor arguments. If we use it on our balance argument that is unused (gray), ReSharper offers the following options:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart5_127BE/image_thumb.png">
+
+
+<p>However, we might want more - we had to write the constructor ourselves - and we have to create the property afterwards. Let&#39;s introduce another shortcut - <strong>Alt+Ins</strong>. While <strong>Alt+Enter</strong> is a general purpose tool, <strong>Alt+Ins</strong> is focused on generating code. Use it anywhere in a class and you will be presented with the following options:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart5_127BE/image_thumb_1.png">
+
+
+<p>Generating a <strong>constructor</strong> will bring up a dialog allowing you to select which members / properties you want to initialize from the constructor. <strong>Read-only properties</strong> / <strong>Properties</strong> will give quick options to create read-only properties from whatever backing fields you already have in your class. <strong>Implementing missing members</strong> will create any members not yet implemented from interfaces or abstract base classes. <strong>Equality members</strong> will implement Equals and the equality operators - <code>GetHashCode</code> included, based on the properties / fields you choose. <strong>Formatting members</strong> will introduce a <code>ToString</code> method that contains the values of whatever properties / fields you want.</p>
+<p>The last one I didn&#39;t mention is the one I think is mostly underused - it is the <strong>Delegating members</strong> option. It is often useful in object oriented design to encapsulate another class and provide delegated methods for a number of the contained type‘s methods. The perfect example is when implementing the decorator pattern - this pattern, by design, requires you to delegate all the methods the contained type. This is a pain to do by hand. However, let’s try using the delegating members option in my Account class, after adding a <code>List&lt;int&gt;</code> - like so:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart5_127BE/image_thumb_3.png">
+
+
+<p>This brings up the following dialog:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart5_127BE/image_thumb_4.png">
+
+
+<p>So basically, ReSharper lets me pick and choose any or all methods / properties that I want to directly delegate. For this class, maybe I need the Add and indexer methods, so I check them off and hit finish:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart5_127BE/image_thumb_5.png">
+
+
+<p>The code for delegating members is silly simple - and this is EXACTLY why we want to generate it in the first place. Generating delegating members let me focus on my intent of which options I want to expose from my class instead of the laborious task of typing out the code.</p>
+<h2>Generating Files</h2>
+<p>As a final note in this post, I would like to introduce another usage of <strong>Alt+Ins</strong> which I have grown quite fond of - in the solution explorer, pressing the shortcut will allow you to add new files in a more lightweight way than the usual add file dialog:</p>
+<img src="/post-images/WindowsLiveWriter/ReSharperSeriesPart5_127BE/image_thumb_6.png">
+
+
+<p>Later, when we look at live templates, we will also see how to add your own file templates to this menu.</p>
+
+        
+      </div>
+    </div>
+  </article>
+</div>
+
+  </div>
+  <footer id="footer" class="inner"><div>
+  Created by <a href="https://plus.google.com/u/0/104662939461086576951?rel=author">Rasmus Kromann-Larsen</a>
+  
+  | <a href="/atom.xml">feed</a>
+  
+  | <a href="/about">about</a>
+  
+</div>
+<div class="clearfix"></div>
+</footer>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<script type="text/javascript">//<![CDATA[
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-1692346-3']);
+                    _gaq.push(['_trackPageview']);
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+            //]]></script>
+
+</body>
+</html>
